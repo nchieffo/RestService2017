@@ -1,9 +1,11 @@
 package it.tecla.test;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 
 import io.swagger.annotations.Api;
 import it.tecla.utils.logging.Logged;
@@ -17,7 +19,7 @@ public class TestRestService {
 
 	@GET
 	@Path("/echo")
-	public OperationResult echo(@QueryParam("msg") String msg) throws InterruptedException {
+	public OperationResult echo(@QueryParam("msg") String msg, @Context HttpServletRequest request) throws InterruptedException {
 		
 		OperationResult operationResult = new OperationResult();
 		
