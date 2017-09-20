@@ -16,11 +16,11 @@ public class LoggedInterceptor {
 	@AroundInvoke
 	public Object log(InvocationContext ctx) throws Exception {
 		
-		LoggerHandler loggerHandler = null;
+		LoggedInterceptorHelper loggedInterceptorHelper = null;
 		
 		try {
-			loggerHandler = LoggerHandlerFactory.create(ctx.getTarget().getClass(), ctx.getMethod(), ctx.getParameters());
-			loggerHandler.logEntering();
+			loggedInterceptorHelper = LoggedInterceptorHelperFactory.create(ctx.getTarget().getClass(), ctx.getMethod(), ctx.getParameters());
+			loggedInterceptorHelper.logEntering();
 		} catch (Throwable t) {
 			LOGGER.warn("Error while creating/logging @Logged", t);
 		}
@@ -28,9 +28,9 @@ public class LoggedInterceptor {
 		// real method invocation
 		Object result = ctx.proceed();
 		
-		if (loggerHandler != null) {
+		if (loggedInterceptorHelper != null) {
 			try {
-				loggerHandler.logExiting(result);
+				loggedInterceptorHelper.logExiting(result);
 			} catch (Throwable t) {
 				LOGGER.warn("Error while logging @Logged", t);
 			}

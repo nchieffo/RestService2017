@@ -6,9 +6,9 @@ import java.lang.reflect.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoggerHandlerFactory {
+public class LoggedInterceptorHelperFactory {
 	
-	public static LoggerHandler create(Class<?> targetClass, Method method, Object...args) {
+	public static LoggedInterceptorHelper create(Class<?> targetClass, Method method, Object...args) {
 		
 		long startTime = System.currentTimeMillis();
 		
@@ -44,16 +44,16 @@ public class LoggerHandlerFactory {
 		
 		logger = LoggerFactory.getLogger(loggerName);
 
-		LoggerHandler loggerHandler = new LoggerHandler();
-		loggerHandler.setStartTime(startTime);
-		loggerHandler.setLogger(logger);
-		loggerHandler.setMethodSignature(methodSignature);
+		LoggedInterceptorHelper loggedInterceptorHelper = new LoggedInterceptorHelper();
+		loggedInterceptorHelper.setStartTime(startTime);
+		loggedInterceptorHelper.setLogger(logger);
+		loggedInterceptorHelper.setMethodSignature(methodSignature);
 		if (hasReturnValue) {
-			loggerHandler.setReturnFormat("{}");
+			loggedInterceptorHelper.setReturnFormat("{}");
 		} else {
-			loggerHandler.setReturnFormat("<void>");
+			loggedInterceptorHelper.setReturnFormat("<void>");
 		}
 		
-		return loggerHandler;
+		return loggedInterceptorHelper;
 	}
 }

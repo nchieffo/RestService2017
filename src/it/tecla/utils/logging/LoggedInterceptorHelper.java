@@ -3,7 +3,7 @@ package it.tecla.utils.logging;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 
-public class LoggerHandler {
+public class LoggedInterceptorHelper {
 	
 	private static final String DURATION_FORMAT = "s's' S'ms'";
 	
