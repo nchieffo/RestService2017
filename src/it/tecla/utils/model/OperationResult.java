@@ -1,5 +1,7 @@
 package it.tecla.utils.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class OperationResult {
@@ -53,4 +55,8 @@ public class OperationResult {
 		return init(false, code, message);
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }
