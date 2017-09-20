@@ -38,12 +38,12 @@ public class LoggerHandler {
 	}
 	
 	public void logEntering() {
-		logger.info("Entering " + methodSignature);
+		logger.trace("Entering " + methodSignature);
 	}
 	
 	public void logExiting(Object retValue) {
 		String methodDuration = DurationFormatUtils.formatDuration(System.currentTimeMillis()-startTime, DURATION_FORMAT);
-		logger.info("Duration {}: {}", methodSignature, methodDuration);
-		logger.info("Exiting {}: " + returnFormat, methodSignature, retValue);
+		logger.trace("Duration {}: {}", methodSignature, methodDuration);
+		logger.trace("Exiting {}: " + returnFormat, methodSignature, retValue);
 	}
 }
