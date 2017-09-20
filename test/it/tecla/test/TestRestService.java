@@ -7,7 +7,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
+import org.apache.commons.configuration.Configuration;
+
 import io.swagger.annotations.Api;
+import it.tecla.utils.configuration.ConfigurationFactory;
 import it.tecla.utils.logging.Logged;
 import it.tecla.utils.model.OperationResult;
 
@@ -32,6 +35,14 @@ public class TestRestService {
 	@Path("/void")
 	public void doVoid() throws InterruptedException {
 		Thread.sleep(250);
+	}
+
+	@GET
+	@Path("/configuration")
+	@Produces("text/plain")
+	public String configuration(@QueryParam("key") String key) throws InterruptedException {
+		Configuration configuration = ConfigurationFactory.getInstance();
+		return configuration.getString(key);
 	}
 	
 }
