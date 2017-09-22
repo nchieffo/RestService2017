@@ -25,7 +25,7 @@ public class TestRestService {
 	@Path("/echo")
 	public OperationResult echo(@QueryParam("msg") String msg) throws InterruptedException {
 		
-		EntryMessage entryMessage = EntryMessage.create(LOGGER, "echo", msg).log();
+		EntryMessage entryMessage = EntryMessage.create(LOGGER, msg).log();
 		
 		OperationResult operationResult = new OperationResult();
 		

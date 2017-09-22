@@ -57,6 +57,16 @@ public class EntryMessage {
 		return "Entering " + getMethodSigature();
 	}
 	
+	public static EntryMessage create(Logger logger, Object... args) {
+		String methodName;
+		if (logger.isTraceEnabled()) {
+			methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+		} else {
+			methodName = "<unknownMethod>";
+		}
+		return create(logger, methodName, args);
+	}
+	
 	public static EntryMessage create(Logger logger, String methodName, Object... args) {
 		EntryMessage entryMessage = new EntryMessage();
 		entryMessage.logger = logger;
