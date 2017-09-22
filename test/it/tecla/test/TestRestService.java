@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import io.swagger.annotations.Api;
 import it.tecla.utils.configuration.ConfigurationFactory;
-import it.tecla.utils.logging.EntryMessage;
+import it.tecla.utils.logging.LoggerEntryMessage;
 import it.tecla.utils.model.OperationResult;
 
 @Path("/test")
@@ -25,15 +25,16 @@ public class TestRestService {
 	@Path("/echo")
 	public OperationResult echo(@QueryParam("msg") String msg) throws InterruptedException {
 		
-		EntryMessage entryMessage = EntryMessage.create(LOGGER, msg).log();
+		LoggerEntryMessage loggerEntryMessage = LoggerEntryMessage.create(LOGGER, msg).log();
 		
 		OperationResult operationResult = new OperationResult();
+		loggerEntryMessage.getStepMessage("step1").log();
 		
 		Thread.sleep(250);
 		
 		operationResult.success("OK", msg);
 
-		entryMessage.getExitMessage(operationResult).log();
+		loggerEntryMessage.getExitMessage(operationResult).log();
 		
 		return operationResult;
 	}

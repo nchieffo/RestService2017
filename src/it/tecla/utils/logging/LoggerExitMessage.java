@@ -1,27 +1,27 @@
 package it.tecla.utils.logging;
 
-public class ExitMessage {
+public class LoggerExitMessage {
 
-	private EntryMessage entryMessage;
+	private LoggerEntryMessage loggerEntryMessage;
 	private Object retValue;
 	
-	protected ExitMessage(EntryMessage entryMessage) {
-		this(entryMessage, "<void>");
+	protected LoggerExitMessage(LoggerEntryMessage loggerEntryMessage) {
+		this(loggerEntryMessage, "<void>");
 	}
 	
-	public ExitMessage(EntryMessage entryMessage, Object retValue) {
-		this.entryMessage = entryMessage;
+	public LoggerExitMessage(LoggerEntryMessage loggerEntryMessage, Object retValue) {
+		this.loggerEntryMessage = loggerEntryMessage;
 		this.retValue = retValue;
 	}
 	
 	@Override
 	public String toString() {
-		return "Exiting " + entryMessage.getMethodSigature() + ": " + retValue;
+		return "EXITING " + loggerEntryMessage.getMethodSigature() + ": " + retValue;
 	}
 	
 	public void log() {
-		entryMessage.resetSteps();
-		entryMessage.getStepMessage("complete method duration").log();
-		entryMessage.getLogger().trace("{}", this);
+		loggerEntryMessage.resetSteps();
+		loggerEntryMessage.getStepMessage("FULL METHOD").log();
+		loggerEntryMessage.getLogger().trace("{}", this);
 	}
 }

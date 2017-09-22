@@ -2,7 +2,7 @@ package it.tecla.utils.logging;
 
 import org.slf4j.Logger;
 
-public class EntryMessage {
+public class LoggerEntryMessage {
 
 	private long startTime = System.currentTimeMillis();
 	private long lastStepTime = startTime;
@@ -11,7 +11,7 @@ public class EntryMessage {
 	private Object[] args;
 	private Logger logger;
 	
-	protected EntryMessage() {
+	protected LoggerEntryMessage() {
 		
 	}
 	
@@ -47,43 +47,43 @@ public class EntryMessage {
 		this.lastStepTime = startTime;
 	}
 	
-	public EntryMessage log() {
+	public LoggerEntryMessage log() {
 		logger.trace("{}", this);
 		return this;
 	}
 	
 	@Override
 	public String toString() {
-		return "Entering " + getMethodSigature();
+		return "ENTERING " + getMethodSigature();
 	}
 	
-	public static EntryMessage create(Logger logger, Object... args) {
+	public static LoggerEntryMessage create(Logger logger, Object... args) {
 		String methodName;
 		if (logger.isTraceEnabled()) {
 			methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
 		} else {
 			methodName = "<unknownMethod>";
 		}
-		return create(logger, methodName, args);
+		return createWithMethodName(logger, methodName, args);
 	}
 	
-	public static EntryMessage create(Logger logger, String methodName, Object... args) {
-		EntryMessage entryMessage = new EntryMessage();
-		entryMessage.logger = logger;
-		entryMessage.methodName = methodName;
-		entryMessage.args = args;
-		return entryMessage;
+	public static LoggerEntryMessage createWithMethodName(Logger logger, String methodName, Object... args) {
+		LoggerEntryMessage loggerEntryMessage = new LoggerEntryMessage();
+		loggerEntryMessage.logger = logger;
+		loggerEntryMessage.methodName = methodName;
+		loggerEntryMessage.args = args;
+		return loggerEntryMessage;
 	}
 	
-	public ExitMessage getExitMessage() {
-		return new ExitMessage(this);
+	public LoggerExitMessage getExitMessage() {
+		return new LoggerExitMessage(this);
 	}
 	
-	public ExitMessage getExitMessage(Object retValue) {
-		return new ExitMessage(this, retValue);
+	public LoggerExitMessage getExitMessage(Object retValue) {
+		return new LoggerExitMessage(this, retValue);
 	}
 	
-	public StepMessage getStepMessage(String stepName) {
-		return new StepMessage(this, stepName);
+	public LoggerStepMessage getStepMessage(String stepName) {
+		return new LoggerStepMessage(this, stepName);
 	}
 }
