@@ -1,53 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
 <configuration>
 
-	<property name="logsFolder" value="/home/tecla" />
-
-	<appender name="FILE_THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
-
-		<!-- This is MDC value -->
-		<!-- We will assign a value to 'logFileName' via Java code -->
-		<discriminator>
-			<key>logFileName</key>
-			<defaultValue>default</defaultValue>
-		</discriminator>
-
-		<sift>
-
-			<!-- A standard RollingFileAppender, the log file is based on 'logFileName'	at runtime -->
-			<appender name="FILE-${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-				<file>${logsFolder}/${logFileName}.log</file>
-
-				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-					<Pattern>%d{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %level %logger{35} - %msg%n</Pattern>
-				</encoder>
-
-				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-					<FileNamePattern>${logsFolder}/${logFileName}.%i.log.zip</FileNamePattern>
-					<MinIndex>1</MinIndex>
-					<MaxIndex>10</MaxIndex>
-				</rollingPolicy>
-
-				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-					<MaxFileSize>10MB</MaxFileSize>
-				</triggeringPolicy>
-
-			</appender>
-
-		</sift>
-	</appender>
+	<property name="logsFolder" value="logs/RestService2017/" />
+	<property name="maxFileSize" value="10MB" />
+	<property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{35} - %msg%n" />
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<Pattern>%-5level %logger{36} - %msg%n</Pattern>
+			<Pattern>${pattern}</Pattern>
 		</encoder>
 	</appender>
+	
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	
+		<file>${logsFolder}/all.log</file>
+	
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${pattern}</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${logsFolder}/${logFileName}.%i.log.gz</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>${maxFileSize}</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+<!-- 	<appender name="THREAD_FILE" class="ch.qos.logback.classic.sift.SiftingAppender"> -->
+
+<!-- 		<discriminator> -->
+<!-- 			<key>logFileName</key> -->
+<!-- 			<defaultValue>default</defaultValue> -->
+<!-- 		</discriminator> -->
+
+<!-- 		<sift> -->
+
+<!-- 			<appender name="FILE-${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 				<file>${logsFolder}/${logFileName}.log</file> -->
+
+<!-- 				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> -->
+<!-- 					<Pattern>%d{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %level %logger{35} - %msg%n</Pattern> -->
+<!-- 				</encoder> -->
+
+<!-- 				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
+<!-- 					<FileNamePattern>${logsFolder}/${logFileName}.%i.log.gz</FileNamePattern> -->
+<!-- 					<MinIndex>1</MinIndex> -->
+<!-- 					<MaxIndex>10</MaxIndex> -->
+<!-- 				</rollingPolicy> -->
+
+<!-- 				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+<!-- 					<MaxFileSize>${maxFileSize}</MaxFileSize> -->
+<!-- 				</triggeringPolicy> -->
+
+<!-- 			</appender> -->
+
+<!-- 		</sift> -->
+<!-- 	</appender> -->
 
 	<logger name="it.tecla" level="trace" />
 
 	<root level="info">
-		<appender-ref ref="STDOUT" level="trace" />
-		<appender-ref ref="FILE_THREAD" level="trace" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+<!-- 		<appender-ref ref="THREAD_FILE" /> -->
 	</root>
 
 </configuration>
