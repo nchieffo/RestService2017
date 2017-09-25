@@ -4,7 +4,7 @@
 
 	<property name="logsFolder" value="logs/RestService2017/" />
 	<property name="maxFileSize" value="10MB" />
-	<property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{35} - %msg%n" />
+	<property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level {%mdc} %logger{35} - %msg%n" />
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
