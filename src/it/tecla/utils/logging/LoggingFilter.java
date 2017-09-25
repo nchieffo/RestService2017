@@ -24,16 +24,18 @@ public class LoggingFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-//		MDC.put("logFileName", Thread.currentThread().getName());
-		
 		if (request instanceof HttpServletRequest) {
+			
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			
 			MDC.put("req.method", httpRequest.getMethod());
 			StringBuffer url = httpRequest.getRequestURL();
+			StringBuffer path = new StringBuffer(httpRequest.getRequestURI());
 			if (httpRequest.getQueryString() != null) {
 				url.append("?");
 				url.append(httpRequest.getQueryString());
+				path.append("?");
+				path.append(httpRequest.getQueryString());
 			}
 			
 			MDC.put("req.url", url.toString());
@@ -46,6 +48,7 @@ public class LoggingFilter implements Filter {
 				MDC.put("req.sessionId", session.getId());
 			}
 
+			MDC.put("req.compact", httpRequest.getMethod() + " " + path);
 		}
 		
 		chain.doFilter(request, response);

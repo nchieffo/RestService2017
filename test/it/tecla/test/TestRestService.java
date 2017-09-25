@@ -46,6 +46,12 @@ public class TestRestService {
 	}
 
 	@GET
+	@Path("/log-err")
+	public void logError() throws InterruptedException {
+		LOGGER.warn("error!");
+	}
+
+	@GET
 	@Path("/configuration")
 	@Produces("text/plain")
 	public String configuration(@QueryParam("key") String key) throws InterruptedException {
