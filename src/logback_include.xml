@@ -12,17 +12,6 @@
 	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%mdc} %logger{35} - %msg%n" />
 	<property name="pattern_compact" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%X{req.compact}} %logger{35} - %msg%n" />
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<filter class="it.tecla.utils.logging.logback.JULFilter" />
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>INFO</level>
-		</filter>
-		<target>System.out</target>
-		<encoder>
-			<pattern>${pattern_compact}</pattern>
-		</encoder>
-	</appender>
-
 	<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>warn</level>
@@ -87,6 +76,7 @@
 	<logger name="it.tecla" level="trace" />
 
 	<root level="info">
+		<appender-ref ref="STDOUT" />
 		<appender-ref ref="STDERR" />
 		<appender-ref ref="FILE" />
 <!-- 		<appender-ref ref="THREAD_FILE" /> -->
