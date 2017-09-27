@@ -8,7 +8,7 @@
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="STDERR" />
 		<appender-ref ref="FILE" />
-<!-- 		<appender-ref ref="THREAD_FILE" /> -->
+		<appender-ref ref="FILE_BY_THREAD_NAME" />
 	</root>
 	
 	<!-- EMAIL con controllo giornaliero https://logback.qos.ch/manual/appenders.html#TriggeringEvent -->

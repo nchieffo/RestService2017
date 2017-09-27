@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE included>
 <included>
+	
+	<contextName>RestService2017</contextName>
 
 	<property resource="application.properties" />
 
@@ -10,6 +12,5 @@
 	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%mdc} %logger{35} - %msg%n" />
 	<property name="pattern_compact" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%X{req.compact}} %logger{35} - %msg%n" />
 	
-	<contextName>${appName}</contextName>
 
 </included>

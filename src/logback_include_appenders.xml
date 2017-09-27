@@ -14,14 +14,14 @@
 	
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 	
-		<file>${logsFolder}/all.log</file>
+		<file>${logsFolder}/default.log</file>
 	
 		<encoder>
 			<Pattern>${pattern_compact}</Pattern>
 		</encoder>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>${logsFolder}/${logFileName}.%i.log.gz</FileNamePattern>
+			<FileNamePattern>${logsFolder}/default.%i.log.gz</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>10</MaxIndex>
 		</rollingPolicy>
@@ -31,36 +31,31 @@
 		</triggeringPolicy>
 	</appender>
 
-<!-- 	<appender name="THREAD_FILE" class="ch.qos.logback.classic.sift.SiftingAppender"> -->
+	<appender name="FILE_BY_THREAD_NAME" class="ch.qos.logback.classic.sift.SiftingAppender">
 
-<!-- 		<discriminator> -->
-				<!-- va settato MDC.put("logFileName", "nomeFile") -->
-<!-- 			<key>logFileName</key> -->
-<!-- 			<defaultValue>default</defaultValue> -->
-<!-- 		</discriminator> -->
+		<discriminator class="it.tecla.utils.logging.logback.ThreadNameDiscriminator" />
+		<sift>
 
-<!-- 		<sift> -->
+			<appender name="FILE-${threadName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>${logsFolder}/by_thread_name/${threadName}.log</file>
 
-<!-- 			<appender name="FILE-${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
-<!-- 				<file>${logsFolder}/${logFileName}.log</file> -->
+				<encoder>
+					<pattern>${pattern_compact}</pattern>
+				</encoder>
 
-<!-- 				<encoder> -->
-<!-- 					<pattern>%d{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %level %logger{35} - %msg%n</pattern> -->
-<!-- 				</encoder> -->
+				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+					<FileNamePattern>${logsFolder}/by_thread_name/${threadName}.%i.log.gz</FileNamePattern>
+					<MinIndex>1</MinIndex>
+					<MaxIndex>10</MaxIndex>
+				</rollingPolicy>
 
-<!-- 				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
-<!-- 					<FileNamePattern>${logsFolder}/${logFileName}.%i.log.gz</FileNamePattern> -->
-<!-- 					<MinIndex>1</MinIndex> -->
-<!-- 					<MaxIndex>10</MaxIndex> -->
-<!-- 				</rollingPolicy> -->
+				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+					<MaxFileSize>${maxFileSize}</MaxFileSize>
+				</triggeringPolicy>
 
-<!-- 				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
-<!-- 					<MaxFileSize>${maxFileSize}</MaxFileSize> -->
-<!-- 				</triggeringPolicy> -->
+			</appender>
 
-<!-- 			</appender> -->
-
-<!-- 		</sift> -->
-<!-- 	</appender> -->
+		</sift>
+	</appender>
 
 </included>
