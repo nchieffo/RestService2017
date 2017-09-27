@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE included>
+<included>
+
+	<property resource="application.properties" />
+	
+	<contextName>${appName}</contextName>
+
+	<property name="logsFolder" value="${logging.logsFolder:-logs/${CONTEXT_NAME}}" />
+	<property name="maxFileSize" value="${logging.maxFileSize:-10MB}" />
+	
+	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%mdc} %logger{35} - %msg%n" />
+	<property name="pattern_compact" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%X{req.compact}} %logger{35} - %msg%n" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="it.tecla.utils.logging.logback.JULFilter" />
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<target>System.out</target>
+		<encoder>
+			<pattern>${pattern_compact}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>warn</level>
+		</filter>
+		<target>System.err</target>
+		<encoder>
+			<pattern>${pattern_full}</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	
+		<file>${logsFolder}/all.log</file>
+	
+		<encoder>
+			<Pattern>${pattern_compact}</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${logsFolder}/${logFileName}.%i.log.gz</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>${maxFileSize}</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+<!-- 	<appender name="THREAD_FILE" class="ch.qos.logback.classic.sift.SiftingAppender"> -->
+
+<!-- 		<discriminator> -->
+				<!-- va settato MDC.put("logFileName", "nomeFile") -->
+<!-- 			<key>logFileName</key> -->
+<!-- 			<defaultValue>default</defaultValue> -->
+<!-- 		</discriminator> -->
+
+<!-- 		<sift> -->
+
+<!-- 			<appender name="FILE-${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 				<file>${logsFolder}/${logFileName}.log</file> -->
+
+<!-- 				<encoder> -->
+<!-- 					<pattern>%d{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %level %logger{35} - %msg%n</pattern> -->
+<!-- 				</encoder> -->
+
+<!-- 				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
+<!-- 					<FileNamePattern>${logsFolder}/${logFileName}.%i.log.gz</FileNamePattern> -->
+<!-- 					<MinIndex>1</MinIndex> -->
+<!-- 					<MaxIndex>10</MaxIndex> -->
+<!-- 				</rollingPolicy> -->
+
+<!-- 				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+<!-- 					<MaxFileSize>${maxFileSize}</MaxFileSize> -->
+<!-- 				</triggeringPolicy> -->
+
+<!-- 			</appender> -->
+
+<!-- 		</sift> -->
+<!-- 	</appender> -->
+
+	<logger name="it.tecla" level="trace" />
+
+	<root level="info">
+		<appender-ref ref="STDERR" />
+		<appender-ref ref="FILE" />
+<!-- 		<appender-ref ref="THREAD_FILE" /> -->
+	</root>
+	
+	<!-- EMAIL con controllo giornaliero https://logback.qos.ch/manual/appenders.html#TriggeringEvent -->
+
+</included>
