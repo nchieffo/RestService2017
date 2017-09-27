@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
-<configuration scan="false" debug="true">
+<configuration scan="false">
 
-	<include resource="logback_include.xml" />
+	<include resource="logback_include_properties.xml" />
+	<include resource="logback_include_appenders.xml" />
 	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="it.tecla.utils.logging.logback.JULFilter" />
@@ -14,5 +15,7 @@
 			<pattern>${pattern_compact}</pattern>
 		</encoder>
 	</appender>
+	
+	<include resource="logback_include_loggers.xml" />
 
 </configuration>

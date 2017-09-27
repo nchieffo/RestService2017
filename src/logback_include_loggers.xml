@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE included>
+<included>
+
+	<logger name="it.tecla" level="trace" />
+
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="STDERR" />
+		<appender-ref ref="FILE" />
+<!-- 		<appender-ref ref="THREAD_FILE" /> -->
+	</root>
+	
+	<!-- EMAIL con controllo giornaliero https://logback.qos.ch/manual/appenders.html#TriggeringEvent -->
+
+</included>
