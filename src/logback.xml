@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
-<configuration scan="false" debug="true">
+<configuration scan="false">
 
 	<include resource="logback_include_properties.xml" />
 	<include resource="logback_include_appenders.xml" />
-	
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<target>System.out</target>
-		<encoder>
-			<pattern>${pattern_compact}</pattern>
-		</encoder>
-	</appender>
 	
 	<root level="info">
 		<appender-ref ref="STDOUT" />

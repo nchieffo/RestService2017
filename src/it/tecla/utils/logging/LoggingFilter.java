@@ -13,10 +13,17 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 @WebFilter(urlPatterns = "/*", dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE })
 public class LoggingFilter implements Filter {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
+	public static final Marker SKIP_STDOUT_MARKER = MarkerFactory.getMarker("SKIP_STDOUT");
 
 	public void init(FilterConfig config) throws ServletException {
 		
@@ -28,17 +35,19 @@ public class LoggingFilter implements Filter {
 			
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			
-			MDC.put("req.method", httpRequest.getMethod());
-			StringBuffer url = httpRequest.getRequestURL();
-			StringBuffer path = new StringBuffer(httpRequest.getRequestURI());
+//			MDC.put("req.method", httpRequest.getMethod());
+			
+			StringBuffer fullUrl = httpRequest.getRequestURL();
+			StringBuffer relativeUrl = new StringBuffer(httpRequest.getRequestURI());
 			if (httpRequest.getQueryString() != null) {
-				url.append("?");
-				url.append(httpRequest.getQueryString());
-				path.append("?");
-				path.append(httpRequest.getQueryString());
+				fullUrl.append("?");
+				fullUrl.append(httpRequest.getQueryString());
+				relativeUrl.append("?");
+				relativeUrl.append(httpRequest.getQueryString());
 			}
 			
-			MDC.put("req.url", url.toString());
+//			MDC.put("req.url", fullUrl.toString());
+			
 			if (httpRequest.getRemoteUser() != null) {
 				MDC.put("req.user", httpRequest.getRemoteUser());
 			}
@@ -48,10 +57,16 @@ public class LoggingFilter implements Filter {
 				MDC.put("req.sessionId", session.getId());
 			}
 
-			MDC.put("req.compact", httpRequest.getMethod() + " " + path);
+			MDC.put("req.compact", httpRequest.getMethod() + " " + relativeUrl);
 		}
 		
-		chain.doFilter(request, response);
+		try {
+			chain.doFilter(request, response);
+		} catch(Throwable t) {
+			LOGGER.error("Uncaught exception while serving request {}", MDC.getCopyOfContextMap());
+			LOGGER.error(SKIP_STDOUT_MARKER, "Uncaught exception while serving request " + MDC.getCopyOfContextMap(), t);
+			throw t;
+		}
 	}
 
 	public void destroy() {

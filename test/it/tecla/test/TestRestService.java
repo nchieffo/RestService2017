@@ -6,6 +6,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
@@ -48,14 +50,14 @@ public class TestRestService {
 	}
 
 	@GET
-	@Path("/log-trace")
+	@Path("/log/trace")
 	public OperationResult logTrace() throws Exception {
 		LOGGER.trace("trace!");
 		return new OperationResult().success("OK", null);
 	}
 
 	@GET
-	@Path("/log-err")
+	@Path("/log/error")
 	public OperationResult logError() throws Exception {
 		LOGGER.trace("trace!");
 		LOGGER.debug("debug!");
@@ -63,6 +65,24 @@ public class TestRestService {
 		LOGGER.warn("warn!");
 		LOGGER.error("error!", new RuntimeException());
 		return new OperationResult().success("OK", null);
+	}
+
+	@GET
+	@Path("/throw/unhandled")
+	public void throwUnhandledException() throws Exception {
+		throw new Exception("error!");
+	}
+
+	@GET
+	@Path("/throw/handled")
+	public void throwHandledException() throws Exception {
+		throw new IllegalArgumentException("error!");
+	}
+
+	@GET
+	@Path("/throw/web")
+	public void throwWebException() throws Exception {
+		throw new WebApplicationException(Response.Status.BAD_REQUEST);
 	}
 
 	@GET
