@@ -8,8 +8,8 @@ public class ThreadNameDiscriminator extends AbstractDiscriminator<ILoggingEvent
 	private String key = "threadName";
 	
 	@Override
-	public String getDiscriminatingValue(ILoggingEvent e) {
-		return e.getThreadName();
+	public String getDiscriminatingValue(ILoggingEvent event) {
+		return event.getThreadName();
 	}
 
 	@Override
