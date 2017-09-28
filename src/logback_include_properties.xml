@@ -9,6 +9,10 @@
 	<property name="logsFolder" value="${logging.logsFolder:-logs/${CONTEXT_NAME}}" />
 	<property name="maxFileSize" value="${logging.maxFileSize:-10MB}" />
 	
+	<property name="smtp.to" value="${logging.smtp.to:-n.chieffo@tecla.it}" />
+	<property name="smtp.jndi" value="${logging.smtp.jndi:-mail/smtp}" />
+	<property name="smtp.subject" value="${logging.smtp.subject:-${HOSTNAME} -- ${CONTEXT_NAME} -- ERROR!}" />
+	
 	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%mdc} %logger{35} - %msg%n" />
 	<property name="pattern_compact" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %level {%X{req.compact}} %logger{35} - %msg%n" />
 	

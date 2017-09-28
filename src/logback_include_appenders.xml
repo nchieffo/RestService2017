@@ -57,5 +57,20 @@
 
 		</sift>
 	</appender>
+	
+	<appender name="SMTP" class="ch.qos.logback.classic.net.SMTPAppender">
+	
+		<!-- EMAIL con controllo giornaliero https://logback.qos.ch/manual/appenders.html#TriggeringEvent -->
+
+		<discriminator class="it.tecla.utils.logging.logback.ThreadNameDiscriminator" />
+		
+		<subject>${smtp.subject}</subject>
+		<sessionViaJNDI>true</sessionViaJNDI>
+		<jndiLocation>${smtp.jndi}</jndiLocation>
+		<to>${smtp.to}</to>
+		
+		<layout class="ch.qos.logback.classic.html.HTMLLayout"></layout>
+		
+	</appender>
 
 </included>
