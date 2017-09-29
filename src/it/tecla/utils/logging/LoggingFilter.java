@@ -61,11 +61,22 @@ public class LoggingFilter implements Filter {
 		}
 		
 		try {
+			
 			chain.doFilter(request, response);
+			
 		} catch(Throwable t) {
+			
 			LOGGER.error("Uncaught exception while serving request {}", MDC.getCopyOfContextMap());
 			LOGGER.error(SKIP_STDOUT_MARKER, "Uncaught exception while serving request " + MDC.getCopyOfContextMap(), t);
-			throw t;
+			
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			} else if (t instanceof IOException) {
+				throw (IOException)t;
+			} else if (t instanceof ServletException) {
+				throw (ServletException)t;
+			}
+			throw new RuntimeException(t);
 		}
 	}
 
