@@ -14,9 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.annotations.Api;
-import it.tecla.utils.configuration.ConfigurationFactory;
 import it.tecla.utils.logging.LoggerEntryMessage;
 import it.tecla.utils.model.OperationResult;
+import it.tecla.utils.properties.ConfigurationFactory;
 
 @Path("/test")
 @Produces("application/json")

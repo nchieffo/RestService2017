@@ -1,4 +1,4 @@
-package it.tecla.utils.configuration;
+package it.tecla.utils.properties;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
