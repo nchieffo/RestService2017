@@ -32,9 +32,6 @@ public class TestRestService {
 	public String echo(@ApiParam("messaggio che verrà ritornato") @QueryParam("msg") String msg) throws Exception {
 		
 		LoggerEntryMessage loggerEntryMessage = LoggerEntryMessage.create(LOGGER, msg).log();
-		
-		loggerEntryMessage.getStepMessage("step1").log();
-
 		loggerEntryMessage.getExitMessage(msg).log();
 		
 		return msg;
