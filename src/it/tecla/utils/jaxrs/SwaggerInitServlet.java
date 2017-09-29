@@ -3,6 +3,7 @@ package it.tecla.utils.jaxrs;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 
 import io.swagger.jaxrs.config.BeanConfig;
+import it.tecla.utils.properties.PropertiesFactory;
 
 @WebServlet(value = { "/swagger", "/swagger-ui" }, loadOnStartup = 2)
 public class SwaggerInitServlet extends HttpServlet {
@@ -29,14 +31,16 @@ public class SwaggerInitServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
+		
 		super.init(config);
+		
+		Properties properties = PropertiesFactory.getInstance();
 
 		// inizializzazione swagger
 		BeanConfig beanConfig = new BeanConfig();
-		// TODO prelevare la versione da un file di properties o dal file contenente le versioni
-		beanConfig.setVersion("1.0.0");
+		beanConfig.setVersion(properties.getProperty("app.version"));
 		beanConfig.setBasePath(config.getServletContext().getContextPath() + JaxRsApplication.API_PATH);
-		beanConfig.setResourcePackage("io.swagger.resources,it.tecla");
+		beanConfig.setResourcePackage(properties.getProperty("swagger.resources"));
 		beanConfig.setScan(true);
 		
 		// inizializzazione swagger-ui webjars
