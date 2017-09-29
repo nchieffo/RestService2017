@@ -14,33 +14,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import it.tecla.utils.logging.LoggerEntryMessage;
 import it.tecla.utils.model.OperationResult;
 import it.tecla.utils.properties.ConfigurationFactory;
 
 @Path("/test")
 @Produces("application/json")
-@Api
+@Api("Operazioni di TEST")
 public class TestRestService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestRestService.class);
 
 	@GET
 	@Path("/echo")
-	public OperationResult echo(@QueryParam("msg") String msg) throws Exception {
+	@Produces("text/plain")
+	public String echo(@ApiParam("messaggio che verrà ritornato") @QueryParam("msg") String msg) throws Exception {
 		
 		LoggerEntryMessage loggerEntryMessage = LoggerEntryMessage.create(LOGGER, msg).log();
 		
-		OperationResult operationResult = new OperationResult();
 		loggerEntryMessage.getStepMessage("step1").log();
-		
-		Thread.sleep(250);
-		
-		operationResult.success("OK", msg);
 
-		loggerEntryMessage.getExitMessage(operationResult).log();
+		loggerEntryMessage.getExitMessage(msg).log();
 		
-		return operationResult;
+		return msg;
 	}
 
 	@GET
