@@ -57,7 +57,7 @@ public class LoggingFilter implements Filter {
 				MDC.put("req.sessionId", session.getId());
 			}
 
-			MDC.put("req.compact", httpRequest.getMethod() + " " + relativeUrl);
+			MDC.put("req", httpRequest.getMethod() + " " + relativeUrl);
 		}
 		
 		try {
