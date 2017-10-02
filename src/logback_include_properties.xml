@@ -17,7 +17,7 @@
 	<property name="smtp.jndi" value="${logging.smtp.jndi:-mail/smtp}" />
 	<property name="smtp.subject" value="${logging.smtp.subject:-${HOSTNAME} -- ${CONTEXT_NAME} -- ERROR!}" />
 	
-	<property name="pattern_compact" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %-5level {%X{req}} %logger - %msg%n" />
+	<property name="pattern_compact" value="[%contextName] %-5level {%X{req}} %logger - %msg%n" />
 	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%contextName] %-5level {%mdc} %logger - %msg%n" />
 	
 	<logger name="it.tecla" level="trace" />
