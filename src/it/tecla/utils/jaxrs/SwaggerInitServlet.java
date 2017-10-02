@@ -35,12 +35,14 @@ public class SwaggerInitServlet extends HttpServlet {
 		super.init(config);
 		
 		Properties properties = PropertiesFactory.getInstance();
+		String swaggerVersion = properties.getProperty("app.version", "unknown");
+		String swaggerResources = properties.getProperty("swagger.resources", "it.tecla");
 
 		// inizializzazione swagger
 		BeanConfig beanConfig = new BeanConfig();
-		beanConfig.setVersion(properties.getProperty("app.version"));
+		beanConfig.setVersion(swaggerVersion);
 		beanConfig.setBasePath(config.getServletContext().getContextPath() + JaxRsApplication.API_PATH);
-		beanConfig.setResourcePackage(properties.getProperty("swagger.resources"));
+		beanConfig.setResourcePackage(swaggerResources);
 		beanConfig.setScan(true);
 		
 		// inizializzazione swagger-ui webjars
