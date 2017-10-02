@@ -11,7 +11,7 @@
 	<property name="maxFileSize" value="${logging.maxFileSize:-2MB}" />
 	<property name="maxFileIndex" value="${logging.maxFileIndex:-10}" />
 	
-	<property name="stdout.minLevel" value="${logging.stdout.minLevel:-INFO}" />
+	<property name="stdout.minLevel" value="${logging.stdout.minLevel:-TRACE}" />
 	
 	<property name="smtp.to" value="${logging.smtp.to:-n.chieffo@tecla.it}" />
 	<property name="smtp.jndi" value="${logging.smtp.jndi:-mail/smtp}" />
