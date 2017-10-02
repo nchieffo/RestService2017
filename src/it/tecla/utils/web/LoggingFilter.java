@@ -1,16 +1,15 @@
-package it.tecla.utils.logging;
+package it.tecla.utils.web;
 
 import java.io.IOException;
 
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import org.slf4j.MDC;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
-@WebFilter(urlPatterns = "/*", dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE })
 public class LoggingFilter implements Filter {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
@@ -35,8 +33,6 @@ public class LoggingFilter implements Filter {
 			
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			
-//			MDC.put("req.method", httpRequest.getMethod());
-			
 			StringBuffer fullUrl = httpRequest.getRequestURL();
 			StringBuffer relativeUrl = new StringBuffer(httpRequest.getRequestURI());
 			if (httpRequest.getQueryString() != null) {
@@ -45,8 +41,6 @@ public class LoggingFilter implements Filter {
 				relativeUrl.append("?");
 				relativeUrl.append(httpRequest.getQueryString());
 			}
-			
-//			MDC.put("req.url", fullUrl.toString());
 			
 			if (httpRequest.getRemoteUser() != null) {
 				MDC.put("req.user", httpRequest.getRemoteUser());
@@ -66,8 +60,18 @@ public class LoggingFilter implements Filter {
 			
 		} catch(Throwable t) {
 			
-			LOGGER.error("Uncaught exception while serving request {}", MDC.getCopyOfContextMap());
-			LOGGER.error(SKIP_STDOUT_MARKER, "Uncaught exception while serving request " + MDC.getCopyOfContextMap(), t);
+			boolean skipLogging = false;
+			if (response instanceof HttpServletResponse) {
+				HttpServletResponse httpResponse = (HttpServletResponse)response;
+				if (httpResponse.getStatus() > 0) {
+					skipLogging = true;
+				}
+			}
+			
+			if (!skipLogging) {
+				LOGGER.error("Uncaught exception while serving request {}", MDC.getCopyOfContextMap());
+				LOGGER.error(SKIP_STDOUT_MARKER, "Uncaught exception while serving request " + MDC.getCopyOfContextMap(), t);
+			}
 			
 			if (t instanceof RuntimeException) {
 				throw (RuntimeException)t;
