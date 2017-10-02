@@ -1,4 +1,4 @@
-package it.tecla.utils.web;
+package it.tecla.utils.logging;
 
 import java.io.IOException;
 
