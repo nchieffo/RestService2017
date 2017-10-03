@@ -5,24 +5,24 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 public class OperationResult {
-	
-	private String message;
-	private String code;
+
 	private boolean success;
+	private String statusCode;
+	private String message;
 	private long startTime = System.currentTimeMillis();
 	private long endTime;
 	private String duration;
-	
-	public String getMessage() {
-		return message;
-	}
-	
-	public String getCode() {
-		return code;
-	}
 
 	public boolean isSuccess() {
 		return success;
+	}
+	
+	public String getStatusCode() {
+		return statusCode;
+	}
+	
+	public String getMessage() {
+		return message;
 	}
 
 	public long getStartTime() {
@@ -37,9 +37,9 @@ public class OperationResult {
 		return duration;
 	}
 
-	public OperationResult init(boolean success, String code, String message) {
+	public OperationResult init(boolean success, String statusCode, String message) {
 		this.success = success;
-		this.code = code;
+		this.statusCode = statusCode;
 		this.message = message;
 		this.endTime = System.currentTimeMillis();
 		 
@@ -47,12 +47,16 @@ public class OperationResult {
 		return this;
 	}
 	
-	public OperationResult success(String code, String message) {
-		return init(true, code, message);
+	public OperationResult success(String statusCode, String message) {
+		return init(true, statusCode, message);
 	}
 	
-	public OperationResult failure(String code, String message) {
-		return init(false, code, message);
+	public OperationResult failure(String statusCode, String message) {
+		return init(false, statusCode, message);
+	}
+	
+	public OperationResult failure(OperationException ex) {
+		return init(false, ex.getStatusCode(), ex.getMessage());
 	}
 
 	@Override
