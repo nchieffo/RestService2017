@@ -37,51 +37,51 @@
 		</encoder>
 	</appender>
 	
-	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!-- 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
 	
-		<file>${logsFolder}/default.log</file>
+<!-- 		<file>${logsFolder}/default.log</file> -->
 	
-		<encoder>
-			<Pattern>${pattern_compact}</Pattern>
-		</encoder>
+<!-- 		<encoder> -->
+<!-- 			<Pattern>${pattern_compact}</Pattern> -->
+<!-- 		</encoder> -->
 
-		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>${logsFolder}/default.%i.log.gz</FileNamePattern>
-			<MinIndex>1</MinIndex>
-			<MaxIndex>${maxFileIndex}</MaxIndex>
-		</rollingPolicy>
+<!-- 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
+<!-- 			<FileNamePattern>${logsFolder}/default.%i.log.gz</FileNamePattern> -->
+<!-- 			<MinIndex>1</MinIndex> -->
+<!-- 			<MaxIndex>${maxFileIndex}</MaxIndex> -->
+<!-- 		</rollingPolicy> -->
 
-		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-			<MaxFileSize>${maxFileSize}</MaxFileSize>
-		</triggeringPolicy>
-	</appender>
+<!-- 		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+<!-- 			<MaxFileSize>${maxFileSize}</MaxFileSize> -->
+<!-- 		</triggeringPolicy> -->
+<!-- 	</appender> -->
 
-	<appender name="FILE_BY_THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
+<!-- 	<appender name="FILE_BY_THREAD" class="ch.qos.logback.classic.sift.SiftingAppender"> -->
 
-		<discriminator class="it.tecla.utils.logging.logback.ThreadNameDiscriminator" />
-		<sift>
+<!-- 		<discriminator class="it.tecla.utils.logging.logback.ThreadNameDiscriminator" /> -->
+<!-- 		<sift> -->
 
-			<appender name="FILE-${threadName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-				<file>${logsFolder}/by_thread/${threadName}.log</file>
+<!-- 			<appender name="FILE-${threadName}" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 				<file>${logsFolder}/by_thread/${threadName}.log</file> -->
 
-				<encoder>
-					<pattern>${pattern_full}</pattern>
-				</encoder>
+<!-- 				<encoder> -->
+<!-- 					<pattern>${pattern_full}</pattern> -->
+<!-- 				</encoder> -->
 
-				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-					<FileNamePattern>${logsFolder}/by_thread/${threadName}.%i.log.gz</FileNamePattern>
-					<MinIndex>1</MinIndex>
-					<MaxIndex>${maxFileIndex}</MaxIndex>
-				</rollingPolicy>
+<!-- 				<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
+<!-- 					<FileNamePattern>${logsFolder}/by_thread/${threadName}.%i.log.gz</FileNamePattern> -->
+<!-- 					<MinIndex>1</MinIndex> -->
+<!-- 					<MaxIndex>${maxFileIndex}</MaxIndex> -->
+<!-- 				</rollingPolicy> -->
 
-				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-					<MaxFileSize>${maxFileSize}</MaxFileSize>
-				</triggeringPolicy>
+<!-- 				<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+<!-- 					<MaxFileSize>${maxFileSize}</MaxFileSize> -->
+<!-- 				</triggeringPolicy> -->
 
-			</appender>
+<!-- 			</appender> -->
 
-		</sift>
-	</appender>
+<!-- 		</sift> -->
+<!-- 	</appender> -->
 	
 	<appender name="FILE_BY_DATE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		
@@ -94,8 +94,8 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<fileNamePattern>${logsFolder}/by_date/previous.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<maxFileSize>${maxFileSize}</maxFileSize>
-			<maxHistory>60</maxHistory>
-			<totalSizeCap>50MB</totalSizeCap>
+			<maxHistory>${maxHistory}</maxHistory>
+			<totalSizeCap>${totalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 		
 	</appender>

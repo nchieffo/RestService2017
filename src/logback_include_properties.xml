@@ -8,8 +8,10 @@
 	<property resource="application.properties" />
 
 	<property name="logsFolder" value="${logging.logsFolder:-logs/${CONTEXT_NAME}}" />
-	<property name="maxFileSize" value="${logging.maxFileSize:-2MB}" />
-	<property name="maxFileIndex" value="${logging.maxFileIndex:-10}" />
+<!-- 	<property name="maxFileSize" value="${logging.maxFileSize:-2MB}" /> -->
+<!-- 	<property name="maxFileIndex" value="${logging.maxFileIndex:-10}" /> -->
+	<property name="maxHistory" value="${logging.maxHistory:-60}" />
+	<property name="totalSizeCap" value="${logging.totalSizeCap:-50MB}" />
 	
 	<property name="stdout.minLevel" value="${logging.stdout.minLevel:-TRACE}" />
 	
