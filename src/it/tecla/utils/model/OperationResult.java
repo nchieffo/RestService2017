@@ -1,5 +1,7 @@
 package it.tecla.utils.model;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -9,8 +11,8 @@ public class OperationResult {
 	private boolean success;
 	private String statusCode;
 	private String message;
-	private long startTime = System.currentTimeMillis();
-	private long endTime;
+	private Date startedAt = new Date(System.currentTimeMillis());
+	private Date endedAt;
 	private String duration;
 
 	public boolean isSuccess() {
@@ -25,12 +27,12 @@ public class OperationResult {
 		return message;
 	}
 
-	public long getStartTime() {
-		return startTime;
+	public Date getStartedAt() {
+		return startedAt;
 	}
 
-	public long getEndTime() {
-		return endTime;
+	public Date getEndedAt() {
+		return endedAt;
 	}
 
 	public String getDuration() {
@@ -41,9 +43,9 @@ public class OperationResult {
 		this.success = success;
 		this.statusCode = statusCode;
 		this.message = message;
-		this.endTime = System.currentTimeMillis();
+		this.endedAt = new Date(System.currentTimeMillis());
 		 
-		duration = DurationFormatUtils.formatDurationISO(endTime - startTime);
+		duration = DurationFormatUtils.formatDurationISO(endedAt.getTime() - startedAt.getTime());
 		return this;
 	}
 	
