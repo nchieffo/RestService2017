@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
-import it.tecla.utils.logging.LoggerEntryMessage;
 import it.tecla.utils.model.OperationResult;
 import it.tecla.utils.properties.ConfigurationFactory;
 
@@ -30,9 +29,6 @@ public class TestRestService {
 	@Path("/echo")
 	@Produces("text/plain")
 	public String echo(@ApiParam("messaggio che verrà ritornato") @QueryParam("msg") String msg) throws Exception {
-		
-		LoggerEntryMessage loggerEntryMessage = LoggerEntryMessage.create(LOGGER, msg).log();
-		loggerEntryMessage.getExitMessage(msg).log();
 		
 		return msg;
 	}
