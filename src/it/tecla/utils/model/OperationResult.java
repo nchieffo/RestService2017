@@ -4,15 +4,19 @@ import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.lang3.time.DurationFormatUtils;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class OperationResult {
 
+	@ApiModelProperty(example="true")
 	private boolean success;
+	@ApiModelProperty(example="OK")
 	private String statusCode;
 	private String message;
 	private Date startedAt = new Date(System.currentTimeMillis());
 	private Date endedAt;
+	@ApiModelProperty(example="150 ms")
 	private String duration;
 
 	public boolean isSuccess() {
@@ -45,7 +49,7 @@ public class OperationResult {
 		this.message = message;
 		this.endedAt = new Date(System.currentTimeMillis());
 		 
-		duration = DurationFormatUtils.formatDurationISO(endedAt.getTime() - startedAt.getTime());
+		duration = (endedAt.getTime() - startedAt.getTime()) + " ms";
 		return this;
 	}
 	
