@@ -1,4 +1,4 @@
-package it.tecla.utils.jaxrs;
+package it.tecla.utils.jaxrs.swagger;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 
 import io.swagger.jaxrs.config.BeanConfig;
+import it.tecla.utils.jaxrs.JaxRsApplication;
 import it.tecla.utils.properties.PropertiesFactory;
 
 @WebServlet(value = { "/swagger", "/swagger-ui" }, loadOnStartup = 2)
