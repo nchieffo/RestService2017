@@ -3,16 +3,16 @@
 <included>
 	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<filter class="it.tecla.utils.logging.logback.JULFilter" />
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>${stdout.minLevel}</level>
-		</filter>
 		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">   
 			<evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
 			 	<marker>SKIP_STDOUT</marker>
 			</evaluator>
 			<onMismatch>NEUTRAL</onMismatch>
 			<onMatch>DENY</onMatch>
+		</filter>
+		<filter class="it.tecla.utils.logging.logback.JULFilter" />
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>${stdout.minLevel}</level>
 		</filter>
 		<target>System.out</target>
 		<encoder>
@@ -21,15 +21,15 @@
 	</appender>
 
 	<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>warn</level>
-		</filter>
 		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">   
 			<evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
 			 	<marker>SKIP_STDOUT</marker>
 			</evaluator>
 			<onMismatch>NEUTRAL</onMismatch>
 			<onMatch>DENY</onMatch>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>warn</level>
 		</filter>
 		<target>System.err</target>
 		<encoder>
@@ -85,7 +85,7 @@
 	
 	<appender name="FILE_BY_DATE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		
-		<file>${logsFolder}/by_date/current.log</file>
+		<file>${logsFolder}/current.log</file>
 		
 		<encoder>
 			<pattern>${pattern_full}</pattern>
