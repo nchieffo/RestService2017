@@ -49,84 +49,91 @@ public class LoggingFilter implements Filter {
 		String req = null;
 		
 		if (request instanceof HttpServletRequest) {
-			
-			final HttpServletRequest httpRequest = (HttpServletRequest) request;
-			
-			StringBuffer url;
-			if (urlType.equals("full")) {
-				url = httpRequest.getRequestURL();
-			} else if (urlType.equals("context_path")) {
-				url = new StringBuffer(httpRequest.getContextPath() + httpRequest.getServletPath() + httpRequest.getPathInfo());
-			} else if (urlType.equals("servlet_path")) {
-				url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
-			} else if (urlType.equals("path_info")) {
-				url = new StringBuffer(httpRequest.getPathInfo());
-			} else {
-				url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
-			}
-			
-			if (httpRequest.getQueryString() != null) {
-				url.append("?");
-				url.append(httpRequest.getQueryString());
-			}
-			
-			remoteUser = httpRequest.getRemoteUser();
-			if (remoteUser != null) {
-				MDC.put("req.user", remoteUser);
-			}
-			
-			session = httpRequest.getSession(false);
-			if (session != null) {
-				MDC.put("req.sessionId", session.getId());
-			}
-			
-			contentType = httpRequest.getContentType();
-//			if (contentType != null) {
-//				MDC.put("req.contentType", contentType);
-//			}
-			
-			if (StringUtils.containsAny(contentType, "application/json", "text/json", "application/x-www-form-urlencoded", "text/plain")) {
-				Reader reader = httpRequest.getReader();
-				final String requestBodyTemp = IOUtils.toString(reader);
-				requestBody = requestBodyTemp;
-				
-//				if (reader != null) {
-//					if (StringUtils.isNotBlank(requestBody)) {
-//						MDC.put("req.body", requestBody);
-//					}
-//				}
-				
-				request = new HttpServletRequestWrapper(httpRequest) {
-					
-					BufferedReader reader = new BufferedReader(new StringReader(requestBodyTemp));
-					
-					@Override
-					public ServletInputStream getInputStream() throws IOException {
-						
-						return new ServletInputStream() {
-							
-							@Override
-							public int read() throws IOException {
-								return reader.read();
-							}
-							
-						};
-					}
-					
-					@Override
-					public BufferedReader getReader() throws IOException {
-						return reader;
-					}
-					
-				};
-			}
 
-			if (contentType != null) {
-				req = httpRequest.getMethod() + "(" + contentType + ") " + url;
-			} else {
-				req = httpRequest.getMethod() + " " + url;
+			try {
+			
+				final HttpServletRequest httpRequest = (HttpServletRequest) request;
+				
+				StringBuffer url;
+				if (urlType.equals("full")) {
+					url = httpRequest.getRequestURL();
+				} else if (urlType.equals("context_path")) {
+					url = new StringBuffer(httpRequest.getContextPath() + httpRequest.getServletPath() + httpRequest.getPathInfo());
+				} else if (urlType.equals("servlet_path")) {
+					url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
+				} else if (urlType.equals("path_info")) {
+					url = new StringBuffer(httpRequest.getPathInfo());
+				} else {
+					url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
+				}
+				
+				if (httpRequest.getQueryString() != null) {
+					url.append("?");
+					url.append(httpRequest.getQueryString());
+				}
+				
+				remoteUser = httpRequest.getRemoteUser();
+				if (remoteUser != null) {
+					MDC.put("req.user", remoteUser);
+				}
+				
+				session = httpRequest.getSession(false);
+				if (session != null) {
+					MDC.put("req.sessionId", session.getId());
+				}
+				
+				contentType = httpRequest.getContentType();
+	//			if (contentType != null) {
+	//				MDC.put("req.contentType", contentType);
+	//			}
+				
+				if (StringUtils.containsAny(contentType, "application/json", "text/json", "application/x-www-form-urlencoded", "text/plain")) {
+					
+					Reader reader = httpRequest.getReader();
+					final String requestBodyTemp = IOUtils.toString(reader);
+					requestBody = requestBodyTemp;
+					
+	//				if (reader != null) {
+	//					if (StringUtils.isNotBlank(requestBody)) {
+	//						MDC.put("req.body", requestBody);
+	//					}
+	//				}
+					
+					request = new HttpServletRequestWrapper(httpRequest) {
+						
+						BufferedReader reader = new BufferedReader(new StringReader(requestBodyTemp));
+						
+						@Override
+						public ServletInputStream getInputStream() throws IOException {
+							
+							return new ServletInputStream() {
+								
+								@Override
+								public int read() throws IOException {
+									return reader.read();
+								}
+								
+							};
+						}
+						
+						@Override
+						public BufferedReader getReader() throws IOException {
+							return reader;
+						}
+						
+					};
+				}
+	
+				if (contentType != null) {
+					req = httpRequest.getMethod() + "(" + contentType + ") " + url;
+				} else {
+					req = httpRequest.getMethod() + " " + url;
+				}
+				MDC.put("req", req);
+			
+			} catch (Throwable t) {
+				LOGGER.warn("Error while trying to extract request information to log", t);
 			}
-			MDC.put("req", req);
 		}
 		
 		try {
