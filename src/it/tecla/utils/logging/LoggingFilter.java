@@ -141,7 +141,6 @@ public class LoggingFilter implements Filter {
 			sb.append(t);
 			sb.append("\n");
 			sb.append("\n");
-			sb.append(req);
 			if (remoteUser != null) {
 				sb.append("\n");
 				sb.append("remoteUser: ");
@@ -152,6 +151,8 @@ public class LoggingFilter implements Filter {
 				sb.append("sessionId: ");
 				sb.append(session.getId());
 			}
+			sb.append("\n");
+			sb.append(req);
 			if (requestBody != null) {
 				sb.append("\n");
 				sb.append(requestBody);
