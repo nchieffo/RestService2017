@@ -92,7 +92,7 @@
 		</encoder>
 		
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>${logsFolder}/by_date/previous.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>${logsFolder}/by_date/%d{yyyy-MM}/previous.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<maxFileSize>${maxFileSize}</maxFileSize>
 			<maxHistory>${maxHistory}</maxHistory>
 			<totalSizeCap>${totalSizeCap}</totalSizeCap>

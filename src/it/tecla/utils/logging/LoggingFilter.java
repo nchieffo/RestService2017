@@ -29,9 +29,15 @@ public class LoggingFilter implements Filter {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
 	public static final Marker SKIP_STDOUT_MARKER = MarkerFactory.getMarker("SKIP_STDOUT");
+	
+	private String urlType;
 
 	public void init(FilterConfig config) throws ServletException {
 		
+		urlType = config.getInitParameter("url_type");
+		if (urlType == null) {
+			urlType = "path_info";
+		}
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -46,13 +52,22 @@ public class LoggingFilter implements Filter {
 			
 			final HttpServletRequest httpRequest = (HttpServletRequest) request;
 			
-			StringBuffer fullUrl = httpRequest.getRequestURL();
-			StringBuffer relativeUrl = new StringBuffer(httpRequest.getRequestURI());
+			StringBuffer url;
+			if (urlType.equals("full")) {
+				url = httpRequest.getRequestURL();
+			} else if (urlType.equals("context_path")) {
+				url = new StringBuffer(httpRequest.getContextPath() + httpRequest.getServletPath() + httpRequest.getPathInfo());
+			} else if (urlType.equals("servlet_path")) {
+				url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
+			} else if (urlType.equals("path_info")) {
+				url = new StringBuffer(httpRequest.getPathInfo());
+			} else {
+				url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
+			}
+			
 			if (httpRequest.getQueryString() != null) {
-				fullUrl.append("?");
-				fullUrl.append(httpRequest.getQueryString());
-				relativeUrl.append("?");
-				relativeUrl.append(httpRequest.getQueryString());
+				url.append("?");
+				url.append(httpRequest.getQueryString());
 			}
 			
 			remoteUser = httpRequest.getRemoteUser();
@@ -107,9 +122,9 @@ public class LoggingFilter implements Filter {
 			}
 
 			if (contentType != null) {
-				req = httpRequest.getMethod() + "(" + contentType + ") " + relativeUrl;
+				req = httpRequest.getMethod() + "(" + contentType + ") " + url;
 			} else {
-				req = httpRequest.getMethod() + " " + relativeUrl;
+				req = httpRequest.getMethod() + " " + url;
 			}
 			MDC.put("req", req);
 		}

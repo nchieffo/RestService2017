@@ -48,6 +48,15 @@
 		<filter-class>
 			it.tecla.utils.logging.LoggingFilter
 		</filter-class>
+		<init-param>
+			<description>valori possibili:
+full (es: http://localhost:port/context-root/context-path/servlet-path/path-info/a/b/c)
+context_path (es: /context-root/context-path/servlet-path/path-info/a/b/c)
+servlet_path (es: /context-path/servlet-path/path-info/a/b/c)
+path_info (es: /path-info/a/b/c)</description>
+			<param-name>url_type</param-name>
+			<param-value>servlet_path</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>CharacterEncodingFilter</filter-name>
