@@ -31,6 +31,7 @@ public class LoggingFilter implements Filter {
 	public static final Marker SKIP_STDOUT_MARKER = MarkerFactory.getMarker("SKIP_STDOUT");
 	
 	private String urlType;
+	private boolean extractBody;
 
 	public void init(FilterConfig config) throws ServletException {
 		
@@ -38,6 +39,8 @@ public class LoggingFilter implements Filter {
 		if (urlType == null) {
 			urlType = "path_info";
 		}
+		
+		extractBody = StringUtils.equals(config.getInitParameter("extract_body"), "true");
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -87,7 +90,7 @@ public class LoggingFilter implements Filter {
 	//				MDC.put("req.contentType", contentType);
 	//			}
 				
-				if (StringUtils.containsAny(contentType, "application/json", "text/json", "application/x-www-form-urlencoded", "text/plain")) {
+				if (extractBody && StringUtils.containsAny(contentType, "application/json", "text/json", "application/x-www-form-urlencoded", "text/plain")) {
 					
 					Reader reader = httpRequest.getReader();
 					final String requestBodyTemp = IOUtils.toString(reader);

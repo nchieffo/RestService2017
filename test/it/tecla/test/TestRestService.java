@@ -3,6 +3,7 @@ package it.tecla.test;
 import javax.mail.Session;
 import javax.naming.InitialContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,10 +29,11 @@ public class TestRestService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestRestService.class);
 
-	@GET
+	@POST
 	@Path("/echo")
+	@Consumes("application/x-www-form-urlencoded")
 	@Produces("text/plain")
-	public String echo(@ApiParam("messaggio che verrà ritornato") @QueryParam("msg") String msg) throws Exception {
+	public String echo(@ApiParam("messaggio che verrà ritornato") @FormParam("msg") String msg) throws Exception {
 		
 		return msg;
 	}
@@ -114,5 +116,4 @@ public class TestRestService {
 //		throw new RuntimeException("error!");
 		return operationResult;
 	}
-	
 }
