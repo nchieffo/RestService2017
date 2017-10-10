@@ -1,7 +1,0 @@
-Per stressare il logging filter eseguire queste operazioni
-
-- creare un file enorme attendendo circa 1 minuto poi dando CTRL-C
-  echo msg= > msg.txt ; cat /dev/urandom | tr -dc 'a-zA-Z0-9' >> msg.txt
-  
-- eseguire la post del file sul servizio di test
-  curl -X POST "http://localhost:10039/RestService2017/api/test/echo" -H "accept: text/plain" -H "Content-Type: application/x-www-form-urlencoded" -d @msg.txt
