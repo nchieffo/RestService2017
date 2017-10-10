@@ -20,7 +20,7 @@
 	<property name="smtp.subject" value="${logging.smtp.subject:-${HOSTNAME} -- ${CONTEXT_NAME} -- ERROR!}" />
 	
 	<property name="pattern_compact" value="%level [%contextName] [%mdc{req:-no_request}] %logger{36} - %msg%n" />
-	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] {%mdc} %logger - %msg%n" />
+	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] [%mdc{req:-no_request}] %logger - %msg%n" />
 	
 	<logger name="it.tecla" level="trace" />
 
