@@ -2,8 +2,9 @@
 <!DOCTYPE configuration>
 <configuration scan="false">
 
-	<include resource="logback_include_properties.xml" />
-	<include resource="logback_include_appenders.xml" />
+	<include resource="logback_include_common.xml" />
+	
+	<logger name="it.tecla" level="debug" />
 	
 	<root level="info">
 		<appender-ref ref="STDOUT" />
@@ -11,7 +12,7 @@
 <!-- 		<appender-ref ref="FILE" /> -->
 <!-- 		<appender-ref ref="FILE_BY_THREAD" /> -->
 		<appender-ref ref="FILE_BY_DATE" />
-		<appender-ref ref="SMTP" />
+<!-- 		<appender-ref ref="SMTP" /> -->
 	</root>
 
 </configuration>

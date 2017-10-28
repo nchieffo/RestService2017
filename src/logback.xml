@@ -2,8 +2,9 @@
 <!DOCTYPE configuration>
 <configuration scan="false" debug="true">
 
-	<include resource="logback_include_properties.xml" />
-	<include resource="logback_include_appenders.xml" />
+	<include resource="logback_include_common.xml" />
+	
+	<logger name="it.tecla" level="trace" />
 	
 	<root level="info">
 		<appender-ref ref="STDOUT" />

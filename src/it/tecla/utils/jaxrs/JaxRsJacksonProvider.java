@@ -24,6 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
+/**
+ * Questa classe permette di customizzare il formato di lettura/scrittura dei JSON per i servizi di JAX-RS
+ * @author Nicolo' Chieffo
+ *
+ */
 @Provider
 @Consumes({"application/json", "text/json"})
 @Produces({"application/json", "text/json"})
@@ -33,17 +38,23 @@ public class JaxRsJacksonProvider implements MessageBodyReader<Object>, MessageB
 	
 	public JaxRsJacksonProvider() {
 		
-		// READER
+		// LETTURA
+		// Evita le eccezioni quando sul JSON di input vengono passati dei campi sconosciuti al servizio
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		// Legge enumerativi usando il loro nome
 		mapper.configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true);
 		
-		// WRITER
+		// SCRITTURA
+		// Abilita Indentazione
 		mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+		// Scrive enumerativi usando il loro nome
 		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
+		// Evita le eccezioni in caso di input nullo
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		// Serializza anche i campi nulli
 		mapper.setSerializationInclusion(Include.ALWAYS);
-		
+
+		// formato di input/output per le date utilizzando il timezone di sistema, o UTC come fallback
 		StdDateFormat dateFormat = new StdDateFormat();
 		TimeZone timezone = TimeZone.getDefault();
 		if (timezone == null) {

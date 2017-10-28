@@ -21,7 +21,13 @@ import io.swagger.jaxrs.config.BeanConfig;
 import it.tecla.utils.jaxrs.JaxRsApplication;
 import it.tecla.utils.properties.PropertiesFactory;
 
-@WebServlet(value = { "/swagger", "/swagger-ui" }, loadOnStartup = 2)
+/**
+ * Classe per inizializzare swagger e per fare una redirect da /swagger-ui al percorso relativo.
+ * NOTA: swagger-ui si trova dentro ad un jar, per cui durante l'inizializzazione viene cercato e salvato il percorso
+ * @author Nicolo' Chieffo
+ *
+ */
+@WebServlet(value = { "/swagger-ui" }, loadOnStartup = 2)
 public class SwaggerInitServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +43,7 @@ public class SwaggerInitServlet extends HttpServlet {
 		
 		Properties properties = PropertiesFactory.getInstance();
 		String swaggerVersion = properties.getProperty("app.version", "unknown");
-		String swaggerResources = properties.getProperty("swagger.resources", "it.tecla");
+		String swaggerResources = properties.getProperty("it.tecla");
 
 		// inizializzazione swagger
 		BeanConfig beanConfig = new BeanConfig();
@@ -46,7 +52,8 @@ public class SwaggerInitServlet extends HttpServlet {
 		beanConfig.setResourcePackage(swaggerResources);
 		beanConfig.setScan(true);
 		
-		// inizializzazione swagger-ui webjars
+		// inizializzazione swagger-ui tramite ricerca del webjar relativo
+		// il percorso nel webjar include una directori con il numero di versione che quindi viene letto dal nome del file
 		String libPath = config.getServletContext().getRealPath("/WEB-INF/lib/");
 		final Pattern pattern = Pattern.compile(SWAGGER_UI_REGEX);
 		Iterator<File> jarFileIterator = FileUtils.iterateFiles(FileUtils.getFile(libPath), new IOFileFilter() {

@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+/**
+ * Filtro HTTP che imposta il character set di default, se non specificato nella request
+ * @author Nicolo' Chieffo
+ *
+ */
 public class CharacterEncodingFilter implements Filter {
 
 	private static String defaultCharset;

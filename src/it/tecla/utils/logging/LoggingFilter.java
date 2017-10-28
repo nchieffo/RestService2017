@@ -18,6 +18,12 @@ import org.slf4j.MDC;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+/**
+ * Questa classe estrae dalla request i dati per poi renderli disponibili nella MDC del logger.
+ * In caso di eccezione provvede anche a loggare la request che ha generato l'errore.
+ * @author Nicolo' Chieffo
+ *
+ */
 public class LoggingFilter implements Filter {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);

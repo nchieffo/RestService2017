@@ -7,6 +7,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * Rappresentazione del risultato di un'operazione
+ * @author Nicolo' Chieffo
+ *
+ */
 public class OperationResult {
 
 	@ApiModelProperty(example="true")

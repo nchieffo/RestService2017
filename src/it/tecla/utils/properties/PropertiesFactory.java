@@ -3,14 +3,25 @@ package it.tecla.utils.properties;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Factory per inizializzare i file di properties
+ * @author Nicolo' Chieffo
+ *
+ */
 public class PropertiesFactory {
-
+	
+	public static final String DEFAULT_PROPERTIES_PATH = "/application.properties";
+	
 	public static Properties getInstance() {
+		return getInstanceFromClasspath(DEFAULT_PROPERTIES_PATH);
+	}
+
+	public static Properties getInstanceFromClasspath(String classPath) {
 		
 		try {
 			
 			Properties properties = new Properties();
-			InputStream is = PropertiesFactory.class.getResourceAsStream("/application.properties");
+			InputStream is = PropertiesFactory.class.getResourceAsStream(classPath);
 			properties.load(is);
 			is.close();
 			
