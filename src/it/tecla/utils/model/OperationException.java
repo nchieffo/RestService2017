@@ -10,16 +10,16 @@ public class OperationException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	private String statusCode;
-	private String message;
+	private String details;
 	
-	public OperationException(String message, String statusCode) {
-		super(statusCode + " " + message);
-		this.message = message;
+	public OperationException(String details, String statusCode) {
+		super(statusCode + " " + details);
+		this.details = details;
 		this.statusCode = statusCode;
 	}
 	
-	public String getMessage() {
-		return message;
+	public String getDetails() {
+		return details;
 	}
 	
 	public String getStatusCode() {

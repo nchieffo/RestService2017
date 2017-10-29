@@ -29,10 +29,12 @@ public class LoggingFilter implements Filter {
 	public static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
 	public static final Marker SKIP_STDOUT_MARKER = MarkerFactory.getMarker("SKIP_STDOUT");
 	
+	@Override
 	public void init(FilterConfig config) throws ServletException {
 		
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
 		String remoteUser = null;
@@ -144,6 +146,7 @@ public class LoggingFilter implements Filter {
 		MDC.clear();
 	}
 
+	@Override
 	public void destroy() {
 		
 	}

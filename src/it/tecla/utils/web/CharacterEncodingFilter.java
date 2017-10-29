@@ -28,6 +28,7 @@ public class CharacterEncodingFilter implements Filter {
 		return defaultCharset;
 	}
 	
+	@Override
 	public void init(FilterConfig config) throws ServletException {
 		defaultCharset = config.getInitParameter("defaultCharset");
 		if (defaultCharset == null) {
@@ -35,6 +36,7 @@ public class CharacterEncodingFilter implements Filter {
 		}
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
 		String characterEncoding = request.getCharacterEncoding();
@@ -111,6 +113,7 @@ public class CharacterEncodingFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
+	@Override
 	public void destroy() {
 		
 	}

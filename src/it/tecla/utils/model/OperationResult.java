@@ -18,7 +18,7 @@ public class OperationResult {
 	private boolean success;
 	@ApiModelProperty(example="OK")
 	private String statusCode;
-	private String message;
+	private String details;
 	private Date startedAt = new Date(System.currentTimeMillis());
 	private Date endedAt;
 	@ApiModelProperty(example="150 ms")
@@ -32,8 +32,8 @@ public class OperationResult {
 		return statusCode;
 	}
 	
-	public String getMessage() {
-		return message;
+	public String getDetails() {
+		return details;
 	}
 
 	public Date getStartedAt() {
@@ -49,10 +49,10 @@ public class OperationResult {
 	}
 
 	@SuppressWarnings("hiding")
-	public OperationResult init(boolean success, String statusCode, String message) {
+	public OperationResult init(boolean success, String statusCode, String details) {
 		this.success = success;
 		this.statusCode = statusCode;
-		this.message = message;
+		this.details = details;
 		this.endedAt = new Date(System.currentTimeMillis());
 		 
 		duration = (endedAt.getTime() - startedAt.getTime()) + " ms";
@@ -60,17 +60,17 @@ public class OperationResult {
 	}
 
 	@SuppressWarnings("hiding")
-	public OperationResult success(String statusCode, String message) {
-		return init(true, statusCode, message);
+	public OperationResult success(String statusCode, String details) {
+		return init(true, statusCode, details);
 	}
 
 	@SuppressWarnings("hiding")
-	public OperationResult failure(String statusCode, String message) {
-		return init(false, statusCode, message);
+	public OperationResult failure(String statusCode, String details) {
+		return init(false, statusCode, details);
 	}
 	
 	public OperationResult failure(OperationException ex) {
-		return init(false, ex.getStatusCode(), ex.getMessage());
+		return init(false, ex.getStatusCode(), ex.getDetails());
 	}
 
 	@Override
