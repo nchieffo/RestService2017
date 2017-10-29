@@ -77,7 +77,7 @@ public class TestRestService {
 	@POST
 	@Path("/throw/unhandled")
 	@Consumes("application/json")
-	public OperationResult throwUnhandledExceptionPost(OperationResult operationResult) throws Exception {
+	public OperationResult throwUnhandledExceptionPost(@SuppressWarnings("unused") OperationResult operationResult) throws Exception {
 		throw new Exception("error!");
 	}
 

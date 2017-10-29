@@ -43,7 +43,11 @@ public class SwaggerInitServlet extends HttpServlet {
 		
 		Properties properties = PropertiesFactory.getInstance();
 		String swaggerVersion = properties.getProperty("app.version", "unknown");
-		String swaggerResources = properties.getProperty("it.tecla");
+		String swaggerResources = properties.getProperty("swagger.resources");
+		
+		if (swaggerResources == null) {
+			throw new IllegalArgumentException("please set swagger.resources properties");
+		}
 
 		// inizializzazione swagger
 		BeanConfig beanConfig = new BeanConfig();

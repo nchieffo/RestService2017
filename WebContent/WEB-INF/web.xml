@@ -17,10 +17,10 @@
 	</security-role>
 	<security-constraint>
 		<display-name>admin</display-name>
-		<web-resource-collection>
-			<web-resource-name>swagger-ui</web-resource-name>
-			<url-pattern>/webjars/swagger-ui/*</url-pattern>
-		</web-resource-collection>
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>swagger-ui</web-resource-name> -->
+<!-- 			<url-pattern>/webjars/swagger-ui/*</url-pattern> -->
+<!-- 		</web-resource-collection> -->
 		<web-resource-collection>
 			<web-resource-name>api-admin</web-resource-name>
 			<url-pattern>/api/admin/*</url-pattern>

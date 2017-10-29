@@ -5,19 +5,16 @@
 	<insertFromJNDI env-entry-name="java:module/ModuleName" as="moduleName" />
 	<contextName>${moduleName}</contextName>
 
-	<property resource="application.properties" />
-
-	<property name="logsFolder" value="${logging.logsFolder:-logs/${CONTEXT_NAME}}" />
-	<property name="maxFileSize" value="${logging.maxFileSize:-2MB}" />
-<!-- 	<property name="maxFileIndex" value="${logging.maxFileIndex:-10}" /> -->
-	<property name="maxHistory" value="${logging.maxHistory:-60}" />
-	<property name="totalSizeCap" value="${logging.totalSizeCap:-50MB}" />
+	<property name="logsFolder" value="logs/${CONTEXT_NAME}" />
+	<property name="maxFileSize" value="2MB" />
+<!-- 	<property name="maxFileIndex" value="10" /> -->
+	<property name="maxHistory" value="60" />
+	<property name="totalSizeCap" value="50MB" />
 	
-	<property name="stdout.minLevel" value="${logging.stdout.minLevel:-TRACE}" />
-	
-	<property name="smtp.to" value="${logging.smtp.to:-n.chieffo@tecla.it}" />
-	<property name="smtp.jndi" value="${logging.smtp.jndi:-mail/smtp}" />
-	<property name="smtp.subject" value="${logging.smtp.subject:-${HOSTNAME} -- ${CONTEXT_NAME} -- ERROR!}" />
+	<property name="smtp.from" value="errors@tecla.it" />
+	<property name="smtp.to" value="n.chieffo@tecla.it" />
+	<property name="smtp.jndi" value="mail/smtp" />
+	<property name="smtp.subject" value="${HOSTNAME} -- ${CONTEXT_NAME} -- ERROR!" />
 	
 	<property name="pattern_compact" value="%level [%contextName] [%mdc{req:-no_request}] %logger{36} - %msg%n" />
 	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] [%mdc{req:-no_request}] %logger - %msg%n" />
@@ -32,7 +29,7 @@
 		</filter>
 		<filter class="it.tecla.utils.logging.logback.JULFilter" />
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>${stdout.minLevel}</level>
+			<level>${stdout.logLevel}</level>
 		</filter>
 		<target>System.out</target>
 		<encoder>
@@ -125,6 +122,7 @@
 	
 <!-- 		<discriminator class="it.tecla.utils.logging.logback.ThreadNameDiscriminator" /> -->
 		
+<!-- 		<from>${smtp.from}</from> -->
 <!-- 		<subject>${smtp.subject}</subject> -->
 <!-- 		<sessionViaJNDI>true</sessionViaJNDI> -->
 <!-- 		<jndiLocation>${smtp.jndi}</jndiLocation> -->

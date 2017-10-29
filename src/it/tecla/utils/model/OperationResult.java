@@ -48,6 +48,7 @@ public class OperationResult {
 		return duration;
 	}
 
+	@SuppressWarnings("hiding")
 	public OperationResult init(boolean success, String statusCode, String message) {
 		this.success = success;
 		this.statusCode = statusCode;
@@ -57,11 +58,13 @@ public class OperationResult {
 		duration = (endedAt.getTime() - startedAt.getTime()) + " ms";
 		return this;
 	}
-	
+
+	@SuppressWarnings("hiding")
 	public OperationResult success(String statusCode, String message) {
 		return init(true, statusCode, message);
 	}
-	
+
+	@SuppressWarnings("hiding")
 	public OperationResult failure(String statusCode, String message) {
 		return init(false, statusCode, message);
 	}

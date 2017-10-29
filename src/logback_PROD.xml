@@ -2,9 +2,11 @@
 <!DOCTYPE configuration>
 <configuration scan="false">
 
+	<property name="stdout.logLevel" value="INFO" />
+
 	<include resource="logback_include_common.xml" />
 	
-	<logger name="it.tecla" level="debug" />
+	<logger name="it.tecla" level="trace" />
 	
 	<root level="info">
 		<appender-ref ref="STDOUT" />
