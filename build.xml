@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project basedir="." default="build">
+<project  basedir="." default="build">
 	
 	<basename property="ant.project.name" file="${basedir}"/>
 	<property environment="env"/>
@@ -8,29 +8,29 @@
 	<echo message="ANT version ${ant.version}" />
 	<echo message="project ${ant.project.name}: ${ant.file}"/> 
 	
-	<!-- compiler options -->
+	<!-- Compiler options -->
 	<property name="debuglevel" value="source,lines,vars"/>
 	<property name="target" value="1.6"/>
 	<property name="source" value="1.6"/>
-
-	<!-- folders -->
-	<property name="RAD_DIR" value="/opt/IBM/RAD96/"/>
-	<property name="classOutputDir" value="WebContent/WEB-INF/classes"/>
 	
-	<path id="Source Folders">
+	<!-- Source dirs -->
+	<path id="path.src">
 		<pathelement location="src"/>
 		<pathelement location=".apt_generated"/>
 		<pathelement location="test"/>
 	</path>
-	<pathconvert pathsep="," property="src.folders.csv" refid="Source Folders"/>
+	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 
-	<path id="Web App Libraries.libraryclasspath">
+	<!-- Library dirs -->
+	<property name="RAD_DIR" value="/opt/IBM/RAD96/"/>
+	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
+	<path id="path.webApp">
 		<fileset dir="WebContent/WEB-INF/lib">
 			<include name="*.jar" />
 		</fileset>
 	</path>
-	<path id="EAR Libraries.libraryclasspath"/>
-	<path id="WebSphere Portal.libraryclasspath">
+	<path id="path.ear"/>
+	<path id="path.webSpherePortal">
 		<fileset dir="${RAD_DIR}/runtimes/base_v8_stub">
 			<include name="**/*.jar" />
 		</fileset>
@@ -38,36 +38,49 @@
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
-	<path id="Project.classpath">
-		<pathelement location="${classOutputDir}"/>
-		<path refid="Web App Libraries.libraryclasspath"/>
-		<path refid="EAR Libraries.libraryclasspath"/>
-		<path refid="WebSphere Portal.libraryclasspath"/>
+	<path id="classpath">
+		<pathelement location="${target.classes}"/>
+		<path refid="path.webApp"/>
+		<path refid="path.ear"/>
+		<path refid="path.webSpherePortal"/>
 	</path>
 	
-	<target name="init">
-		<mkdir dir="${classOutputDir}"/>
+	<!-- Targets -->
+	<target depends="init" name="init_TEST">
+		<mkdir dir="${target.classes}"/>
 		<!-- include anche i sorgenti nella compilazione -->
-		<copy includeemptydirs="false" todir="${classOutputDir}" overwrite="false">
-			<multirootfileset basedirs="${src.folders.csv}" />
+		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
+			<multirootfileset basedirs="resources.TEST" />
+		</copy>
+	</target>
+	<target depends="init" name="init_PROD">
+		<mkdir dir="${target.classes}"/>
+		<!-- include anche i sorgenti nella compilazione -->
+		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
+			<multirootfileset basedirs="resources.PROD" />
+		</copy>
+	</target>
+	<target name="init">
+		<mkdir dir="${target.classes}"/>
+		<!-- include anche i sorgenti nella compilazione -->
+		<copy includeemptydirs="false" todir="${target.classes}" overwrite="false">
+			<multirootfileset basedirs="${path.src.csv}" />
 		</copy>
 	</target>
 	
-	<target name="clean">
-		<delete dir="${classOutputDir}"/>
-	</target>
-	
-	<target depends="clean" name="cleanall"/>
-	
-	<target depends="build-subprojects,build-project" name="build"/>
-	
-	<target name="build-subprojects"/>
-	
 	<target depends="init" name="build-project">
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${classOutputDir}" includeantruntime="false" source="${source}" target="${target}">
-			<src refid="Source Folders"/>
-			<classpath refid="Project.classpath"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${target.classes}" includeantruntime="false" source="${source}" target="${target}">
+			<src refid="path.src"/>
+			<classpath refid="classpath"/>
 		</javac>
 	</target>
+	
+	<target name="clean">
+		<delete dir="${target.classes}"/>
+	</target>
+
+	<target depends="build-project" name="build"/>
+	<target depends="init_TEST,build-project" name="build_TEST"/>
+	<target depends="init_PROD,build-project" name="build_PROD"/>
 
 </project>
