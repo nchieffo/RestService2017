@@ -22,7 +22,8 @@
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 
 	<!-- Library dirs -->
-	<property name="RAD_DIR" value="/opt/IBM/RAD96/"/>
+	<available file="/opt/IBM/RAD96/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD96/"/>
+
 	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
 	<path id="path.webApp">
 		<fileset dir="WebContent/WEB-INF/lib">
