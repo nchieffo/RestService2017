@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project  basedir="." default="build">
+<project  basedir="." default="build" xmlns:if="ant:if" xmlns:unless="ant:unless">
 	
 	<basename property="ant.project.name" file="${basedir}"/>
 	<property environment="env"/>
@@ -15,8 +15,8 @@
 	
 	<!-- Source dirs -->
 	<path id="path.src">
-		<pathelement location="src"/>
 		<pathelement location=".apt_generated"/>
+		<pathelement location="src"/>
 	</path>
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 
@@ -46,41 +46,66 @@
 	</path>
 	
 	<!-- Targets -->
-	<target depends="init" name="init_QUALITY">
-		<mkdir dir="${target.classes}"/>
-		<!-- include anche i sorgenti nella compilazione -->
-		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
-			<fileset dir="resources.QUALITY" />
-		</copy>
-	</target>
-	<target depends="init" name="init_PROD">
-		<mkdir dir="${target.classes}"/>
-		<!-- include anche i sorgenti nella compilazione -->
-		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
-			<fileset dir="resources.PROD" />
-		</copy>
-	</target>
+	
+	<!--
+		<target depends="init" name="init_QUALITY">
+			<mkdir dir="${target.classes}"/>
+			<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
+				<fileset dir="resources/QUALITY">
+					<exclude name="HELP.txt" />
+				</fileset>
+			</copy>
+		</target>
+		<target depends="init" name="init_PROD">
+			<mkdir dir="${target.classes}"/>
+			<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
+				<fileset dir="resources/PROD">
+					<exclude name="HELP.txt" />
+				</fileset>
+			</copy>
+		</target>
+		<target depends="init_QUALITY,build-project" name="build_QUALITY"/>
+		<target depends="init_PROD,build-project" name="build_PROD"/>
+	-->
+	
 	<target name="init">
+		
 		<mkdir dir="${target.classes}"/>
+		
 		<!-- include anche i sorgenti nella compilazione -->
+		<echo message="Copying java sources..."/>
 		<copy includeemptydirs="false" todir="${target.classes}" overwrite="false">
 			<multirootfileset basedirs="${path.src.csv}" />
 		</copy>
+		
+		<!-- directory resource -->
+		<echo message="Copying resource files..."/>
+		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
+			<fileset dir="resources">
+				<exclude name="profile/**" />
+			</fileset>
+		</copy>
+		
+		<!-- directory resource di profilo -->
+		<condition if:set="profile" property="profile.dir.exists"><available file="resources/profile/${profile}" type="dir"/></condition>
+		<echo if:set="profile.dir.exists" message="Copying '${profile}' profile resource files..."/>
+		<copy if:set="profile.dir.exists" includeemptydirs="false" todir="${target.classes}" overwrite="true">
+			<fileset dir="resources/profile/${profile}" />
+		</copy>
+		
 	</target>
 	
-	<target depends="init" name="build-project">
+	<target depends="init" name="build">
+		
 		<javac debug="true" debuglevel="${debuglevel}" destdir="${target.classes}" includeantruntime="false" source="${source}" target="${target}">
 			<src refid="path.src"/>
 			<classpath refid="classpath"/>
 		</javac>
+		
 	</target>
 	
 	<target name="clean">
 		<delete dir="${target.classes}"/>
 	</target>
-
-	<target depends="build-project" name="build"/>
-	<target depends="init_QUALITY,build-project" name="build_QUALITY"/>
-	<target depends="init_PROD,build-project" name="build_PROD"/>
 
 </project>
