@@ -17,7 +17,6 @@
 	<path id="path.src">
 		<pathelement location="src"/>
 		<pathelement location=".apt_generated"/>
-		<pathelement location="test"/>
 	</path>
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 
@@ -47,18 +46,18 @@
 	</path>
 	
 	<!-- Targets -->
-	<target depends="init" name="init_TEST">
+	<target depends="init" name="init_QUALITY">
 		<mkdir dir="${target.classes}"/>
 		<!-- include anche i sorgenti nella compilazione -->
 		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
-			<multirootfileset basedirs="resources.TEST" />
+			<fileset dir="resources.QUALITY" />
 		</copy>
 	</target>
 	<target depends="init" name="init_PROD">
 		<mkdir dir="${target.classes}"/>
 		<!-- include anche i sorgenti nella compilazione -->
 		<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
-			<multirootfileset basedirs="resources.PROD" />
+			<fileset dir="resources.PROD" />
 		</copy>
 	</target>
 	<target name="init">
@@ -81,7 +80,7 @@
 	</target>
 
 	<target depends="build-project" name="build"/>
-	<target depends="init_TEST,build-project" name="build_TEST"/>
+	<target depends="init_QUALITY,build-project" name="build_QUALITY"/>
 	<target depends="init_PROD,build-project" name="build_PROD"/>
 
 </project>
