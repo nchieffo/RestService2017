@@ -20,9 +20,27 @@
 	</path>
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 
-	<!-- Library dirs -->
+	<!-- Library dirs (Windows) -->
+	<available file="E:\\IBM\\SDP\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP\\"/>
+	<available file="E:\\IBM\\SDP91\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP91\\"/>
+	<available file="E:\\IBM\\SDP95\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP95\\"/>
+	<available file="E:\\IBM\\SDP96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP96\\"/>
+	<available file="E:\\IBM\\RAD\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD\\"/>
+	<available file="E:\\IBM\\RAD91\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD91\\"/>
+	<available file="E:\\IBM\\RAD95\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD95\\"/>
+	<available file="E:\\IBM\\RAD96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD96\\"/>
+	
+	<!-- Library dirs (Linux) -->
+	<available file="/opt/IBM/SDP/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP/"/>
+	<available file="/opt/IBM/SDP91/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP91/"/>
+	<available file="/opt/IBM/SDP95/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP95/"/>
+	<available file="/opt/IBM/SDP96/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP96/"/>
+	<available file="/opt/IBM/RAD/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD/"/>
+	<available file="/opt/IBM/RAD91/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD91/"/>
+	<available file="/opt/IBM/RAD95/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD95/"/>
 	<available file="/opt/IBM/RAD96/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD96/"/>
 
+	<!-- Library dirs (project) -->
 	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
 	<path id="path.webApp">
 		<fileset dir="WebContent/WEB-INF/lib">
@@ -42,32 +60,10 @@
 		<pathelement location="${target.classes}"/>
 		<path refid="path.webApp"/>
 		<path refid="path.ear"/>
-		<path refid="path.webSpherePortal"/>
+		<!-- <path refid="path.webSpherePortal"/> -->
 	</path>
 	
 	<!-- Targets -->
-	
-	<!--
-		<target depends="init" name="init_QUALITY">
-			<mkdir dir="${target.classes}"/>
-			<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
-				<fileset dir="resources/QUALITY">
-					<exclude name="HELP.txt" />
-				</fileset>
-			</copy>
-		</target>
-		<target depends="init" name="init_PROD">
-			<mkdir dir="${target.classes}"/>
-			<copy includeemptydirs="false" todir="${target.classes}" overwrite="true">
-				<fileset dir="resources/PROD">
-					<exclude name="HELP.txt" />
-				</fileset>
-			</copy>
-		</target>
-		<target depends="init_QUALITY,build-project" name="build_QUALITY"/>
-		<target depends="init_PROD,build-project" name="build_PROD"/>
-	-->
-	
 	<target name="init">
 		
 		<mkdir dir="${target.classes}"/>
@@ -100,6 +96,7 @@
 		<javac debug="true" debuglevel="${debuglevel}" destdir="${target.classes}" includeantruntime="false" source="${source}" target="${target}">
 			<src refid="path.src"/>
 			<classpath refid="classpath"/>
+			<bootclasspath refid="path.webSpherePortal"/>
 		</javac>
 		
 	</target>
