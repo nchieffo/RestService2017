@@ -1,4 +1,4 @@
 #!/bin/bash
-ant -Dprofile=test clean build
-ant -Dprofile=quality clean build
-ant -Dprofile=prod clean build
+ant -Dprofile=test clean ear
+ant -Dprofile=quality clean ear
+ant -Dprofile=prod clean ear

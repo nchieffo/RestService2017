@@ -19,9 +19,7 @@
 		<pathelement location="src"/>
 	</path>
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
-	<path id="path.resources">
-		<pathelement location="resources"/>
-	</path>
+	<property name="project.ear" value="../${ant.project.name}EAR/"/>
 
 	<!-- Target dirs -->
 	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
@@ -69,6 +67,7 @@
 		<pathelement location="${target.classes}"/>
 		<path refid="path.webApp"/>
 		<path refid="path.ear"/>
+		<!-- questo path viene utilizzato nel bootclasspath -->
 		<!-- <path refid="path.webSpherePortal"/> -->
 	</path>
 	
@@ -91,7 +90,7 @@
 		</copy>
 		
 		<!-- directory resource -->
-		<condition property="resources.dir.exists"><available file="resources" type="dir"/></condition>
+		<available file="resources" type="dir" property="resources.dir.exists"/>
 		<echo if:set="resources.dir.exists" message="Copying resource files from resources"/>
 		<copy if:set="resources.dir.exists" includeemptydirs="false" todir="${target.classes}" overwrite="true">
 			<fileset dir="resources">
@@ -100,7 +99,7 @@
 		</copy>
 		
 		<!-- directory resource di profilo -->
-		<condition if:set="profile" property="resources.profile.dir.exists"><available file="resources/profile/${profile}" type="dir"/></condition>
+		<available if:set="profile" file="resources/profile/${profile}" type="dir" property="resources.profile.dir.exists"/>
 		<echo if:set="resources.profile.dir.exists" message="Copying '${profile}' profile resource files..."/>
 		<copy if:set="resources.profile.dir.exists" includeemptydirs="false" todir="${target.classes}" overwrite="true">
 			<fileset dir="resources/profile/${profile}">
@@ -127,6 +126,27 @@
 				<include name="LICENSE"/>
 			</fileset>
 		</war>
+	</target>
+	
+	<target depends="war" name="ear">
+		<available file="${project.ear}" type="dir" property="project.ear.exists"/>
+		<fail unless:set="project.ear.exists" message="EAR project directory does not exist: ${project.ear}"/>
+		<ear destfile="${target.ear}" update="true" appxml="${project.ear}/META-INF/application.xml" manifest="${project.ear}/META-INF/MANIFEST.MF">
+			
+			<fileset unless:set="profile" file="${target.war}"/>
+			
+			<mappedresources if:set="profile">
+				<fileset file="${target.war}"/>
+				<globmapper from="*.${profile}.war" to="*.war"/>
+			</mappedresources>
+			
+			<fileset dir="${project.ear}">
+				<exclude name="META-INF/ibm-application-bnd.xml"/>
+				<exclude name="META-INF/application.xml"/> <!-- aggiunto già con attributo appxml -->
+				<include name="META-INF/**"/>
+			</fileset>
+			
+		</ear>
 	</target>
 
 </project>
