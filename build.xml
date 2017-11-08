@@ -47,7 +47,7 @@
 	<available file="/opt/IBM/RAD91/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD91/"/>
 	<available file="/opt/IBM/RAD95/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD95/"/>
 	<available file="/opt/IBM/RAD96/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD96/"/>
-
+	
 	<!-- Library dirs (project) -->
 	<path id="path.webApp">
 		<fileset dir="WebContent/WEB-INF/lib">
@@ -109,7 +109,7 @@
 	</target>
 	
 	<target depends="init" name="build">
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${target.classes}" includeantruntime="false" source="${source}" target="${target}">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${target.classes}" includeantruntime="false" source="${source}" target="${target}" executable="${RAD_DIR}/runtimes/base_v8_stub/java/bin/javac" fork="true">
 			<src refid="path.src"/>
 			<classpath refid="classpath"/>
 			<bootclasspath refid="path.webSpherePortal"/>
