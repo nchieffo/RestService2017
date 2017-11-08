@@ -122,6 +122,10 @@
 			<fileset dir="WebContent/">
 				<exclude name="WEB-INF/ibm-web-bnd.xml"/>
 			</fileset>
+			<fileset dir=".">
+				<include name="CHANGELOG"/>
+				<include name="LICENSE"/>
+			</fileset>
 		</war>
 	</target>
 
