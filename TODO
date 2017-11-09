@@ -1,0 +1,3 @@
+- quando compilo con ANT viene svuotata la cartella WEB-INF/classes per cui il progetto su eclipse viene sovrascritto (file di configurazione + eventuali package di test)
+Sarebbe opportuno compilare su un'altra directory
+Questo purtroppo signifca che non posso più creare il WAR copiando la cartelal WebContent, ma devo escludere la WEB-INF/classes e usare quella del compilato (ant_target)
