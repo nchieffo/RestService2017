@@ -11,10 +11,7 @@
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="STDERR" />
-<!-- 		<appender-ref ref="FILE" /> -->
-<!-- 		<appender-ref ref="FILE_BY_THREAD" /> -->
 		<appender-ref ref="FILE_BY_DATE" />
-<!-- 		<appender-ref ref="SMTP" /> -->
 	</root>
 
 </configuration>
