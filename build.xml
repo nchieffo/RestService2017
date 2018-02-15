@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project  basedir="." default="build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project  basedir="." default="all" xmlns:if="ant:if" xmlns:unless="ant:unless">
 	
 	<basename property="ant.project.name" file="${basedir}"/>
 	<property environment="env"/>
@@ -23,10 +23,6 @@
 
 	<!-- Target dirs -->
 	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
-	<property if:set="profile" name="target.war" value="../dist/${ant.project.name}/${ant.project.name}.${profile}.war"/>
-	<property unless:set="profile" name="target.war" value="../dist/${ant.project.name}/${ant.project.name}.war"/>
-	<property if:set="profile" name="target.ear" value="../dist/${ant.project.name}/${ant.project.name}EAR.${profile}.ear"/>
-	<property unless:set="profile" name="target.ear" value="../dist/${ant.project.name}/${ant.project.name}EAR.ear"/>
 
 	<!-- Library dirs (Windows) -->
 	<available file="E:\\IBM\\SDP\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP\\"/>
@@ -73,13 +69,20 @@
 	
 	<!-- ANT tasks -->
 	
-	<target name="clean">
+	<target name="target_config">
+		<property if:set="profile" name="target.war" value="../dist/${ant.project.name}/${ant.project.name}.${profile}.war"/>
+		<property unless:set="profile" name="target.war" value="../dist/${ant.project.name}/${ant.project.name}.war"/>
+		<property if:set="profile" name="target.ear" value="../dist/${ant.project.name}/${ant.project.name}EAR.${profile}.ear"/>
+		<property unless:set="profile" name="target.ear" value="../dist/${ant.project.name}/${ant.project.name}EAR.ear"/>
+	</target>
+	
+	<target depends="target_config" name="clean">
 		<delete dir="${target.classes}"/>
 		<delete file="${target.war}"/>
 		<delete file="${target.ear}"/>
 	</target>
 	
-	<target name="init">
+	<target depends="target_config" name="init">
 		
 		<mkdir dir="${target.classes}"/>
 		
@@ -117,6 +120,7 @@
 	</target>
 	
 	<target depends="build" name="war">
+		<echo message="war profile: ${profile}"/>
 		<war destfile="${target.war}" update="true" needxmlfile="false" manifest="WebContent/META-INF/MANIFEST.MF">
 			<fileset dir="WebContent/">
 				<exclude name="WEB-INF/ibm-web-bnd.xml"/>
@@ -129,6 +133,7 @@
 	</target>
 	
 	<target depends="war" name="ear">
+		<echo message="ear profile: ${profile}"/>
 		<available file="${project.ear}" type="dir" property="project.ear.exists"/>
 		<fail unless:set="project.ear.exists" message="EAR project directory does not exist: ${project.ear}"/>
 		<ear destfile="${target.ear}" update="true" appxml="${project.ear}/META-INF/application.xml" manifest="${project.ear}/META-INF/MANIFEST.MF">
@@ -147,6 +152,28 @@
 			</fileset>
 			
 		</ear>
+	</target>
+	
+	<target name="all">
+		<antcall target="clean">
+			<param name="profile" value="test"/>
+		</antcall>
+		<antcall target="clean">
+			<param name="profile" value="quality"/>
+		</antcall>
+		<antcall target="clean">
+			<param name="profile" value="prod"/>
+		</antcall>
+		
+		<antcall target="ear">
+			<param name="profile" value="test"/>
+		</antcall>
+		<antcall target="ear">
+			<param name="profile" value="quality"/>
+		</antcall>
+		<antcall target="ear">
+			<param name="profile" value="prod"/>
+		</antcall>
 	</target>
 
 </project>
