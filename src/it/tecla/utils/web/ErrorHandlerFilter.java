@@ -60,7 +60,6 @@ public class ErrorHandlerFilter implements Filter {
 				}
 				
 				String errorUUID = UUID.randomUUID().toString();
-				// TODO nel logger è utile aggiungere la request che ha provocato l'errore
 				LOGGER.error("ERROR_UUID=" + errorUUID + " ", ex);
 				
 				PrintWriter writer = response.getWriter();
