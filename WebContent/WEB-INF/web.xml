@@ -44,25 +44,31 @@
 		</init-param>
 	</filter>
 	<filter>
-		<filter-name>LoggingFilter</filter-name>
+		<filter-name>ErrorHandlerFilter</filter-name>
 		<filter-class>
-			it.tecla.utils.logging.LoggingFilter
+			it.tecla.utils.web.ErrorHandlerFilter
 		</filter-class>
-		<init-param>
-			<description>valori possibili:
-full (es: http://localhost:port/context-root/context-path/servlet-path/path-info/a/b/c)
-context_path (es: /context-root/context-path/servlet-path/path-info/a/b/c)
-servlet_path (es: /context-path/servlet-path/path-info/a/b/c)
-path_info (es: /path-info/a/b/c)</description>
-			<param-name>url_type</param-name>
-			<param-value>servlet_path</param-value>
-		</init-param>
-		<init-param>
-			<description>se = true estrae il request body e lo logga in caso di errore</description>
-			<param-name>extract_body</param-name>
-			<param-value>true</param-value>
-		</init-param>
 	</filter>
+<!-- 	<filter> -->
+<!-- 		<filter-name>LoggingFilter</filter-name> -->
+<!-- 		<filter-class> -->
+<!-- 			it.tecla.utils.logging.LoggingFilter -->
+<!-- 		</filter-class> -->
+<!-- 		<init-param> -->
+<!-- 			<description>valori possibili: -->
+<!-- full (es: http://localhost:port/context-root/context-path/servlet-path/path-info/a/b/c) -->
+<!-- context_path (es: /context-root/context-path/servlet-path/path-info/a/b/c) -->
+<!-- servlet_path (es: /context-path/servlet-path/path-info/a/b/c) -->
+<!-- path_info (es: /path-info/a/b/c)</description> -->
+<!-- 			<param-name>url_type</param-name> -->
+<!-- 			<param-value>servlet_path</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<description>se = true estrae il request body e lo logga in caso di errore</description> -->
+<!-- 			<param-name>extract_body</param-name> -->
+<!-- 			<param-value>true</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</filter> -->
 	<filter-mapping>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/api/*</url-pattern>
@@ -71,10 +77,17 @@ path_info (es: /path-info/a/b/c)</description>
 		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>LoggingFilter</filter-name>
+		<filter-name>ErrorHandlerFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>LoggingFilter</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 		<dispatcher>REQUEST</dispatcher> -->
+<!-- 		<dispatcher>FORWARD</dispatcher> -->
+<!-- 		<dispatcher>INCLUDE</dispatcher> -->
+<!-- 	</filter-mapping> -->
 </web-app>
