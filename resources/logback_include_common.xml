@@ -10,8 +10,8 @@
 	<property name="maxHistory" value="365" />
 	<property name="totalSizeCap" value="50MB" />
 	
-	<property name="pattern_compact" value="%level [%contextName] [%mdc{req:-no_request}] %logger{36} - %msg" />
-	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] [%mdc{req:-no_request}] %logger - %msg" />
+	<property name="pattern_compact" value="%level [%contextName] %logger - %msg" />
+	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] %logger - %msg" />
 	
 	<appender name="JUL" class="it.tecla.utils.logging.logback.JULAppender">
 		<encoder>
