@@ -9,9 +9,8 @@
 	<logger name="it.tecla" level="trace" />
 	
 	<root level="info">
-		<appender-ref ref="STDOUT" />
-		<appender-ref ref="STDERR" />
-<!-- 		<appender-ref ref="FILE_BY_DATE" /> -->
+		<appender-ref ref="JUL" />
+		<appender-ref ref="FILE_BY_DATE" />
 	</root>
 
 </configuration>

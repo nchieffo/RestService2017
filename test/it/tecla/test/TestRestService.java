@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
-import it.tecla.utils.logging.LoggingFilter;
 import it.tecla.utils.model.OperationResult;
 import it.tecla.utils.properties.ConfigurationFactory;
 
@@ -28,6 +27,7 @@ import it.tecla.utils.properties.ConfigurationFactory;
 public class TestRestService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestRestService.class);
+	private static final String UNICODE = "òàè+!£$%%&/\u2E80-\u2FD5\u3400-\u4DBF\u4E00-\u9FCC";
 
 	@POST
 	@Path("/echo")
@@ -47,23 +47,18 @@ public class TestRestService {
 	@GET
 	@Path("/log/trace")
 	public OperationResult logTrace() throws Exception {
-		LOGGER.trace("trace!");
+		LOGGER.trace("trace!" + UNICODE);
 		return new OperationResult().success("OK", null);
 	}
 
 	@GET
 	@Path("/log/error")
 	public OperationResult logError() throws Exception {
-		LOGGER.trace("trace!");
-		LOGGER.trace(LoggingFilter.SKIP_STDOUT_MARKER, "trace!");
-		LOGGER.debug("debug!");
-		LOGGER.debug(LoggingFilter.SKIP_STDOUT_MARKER, "debug!");
-		LOGGER.info("info!");
-		LOGGER.info(LoggingFilter.SKIP_STDOUT_MARKER, "info!");
-		LOGGER.warn("warn!");
-		LOGGER.warn(LoggingFilter.SKIP_STDOUT_MARKER, "warn!");
-		LOGGER.error("error!");
-		LOGGER.error(LoggingFilter.SKIP_STDOUT_MARKER, "error!");
+		LOGGER.trace("trace!" + UNICODE);
+		LOGGER.debug("debug!" + UNICODE);
+		LOGGER.info("info!" + UNICODE);
+		LOGGER.warn("warn!" + UNICODE);
+		LOGGER.error("error!" + UNICODE);
 		
 		return new OperationResult().success("OK", null);
 	}

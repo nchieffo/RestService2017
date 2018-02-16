@@ -15,8 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
 /**
  * Questa classe estrae dalla request i dati per poi renderli disponibili nella MDC del logger.
@@ -27,7 +25,6 @@ import org.slf4j.MarkerFactory;
 public class LoggingFilter implements Filter {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
-	public static final Marker SKIP_STDOUT_MARKER = MarkerFactory.getMarker("SKIP_STDOUT");
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -134,8 +131,7 @@ public class LoggingFilter implements Filter {
 			}
 			
 			if (!skipLogging) {
-				LOGGER.error(errorMessage);
-				LOGGER.error(SKIP_STDOUT_MARKER, errorMessage, t);
+				LOGGER.error(errorMessage, t);
 			}
 			
 			// non è necessario fare throw dell'eccezione perchè è già stata stampata sia da JAX-RS che dal motore delle servlet
