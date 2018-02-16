@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
-<project  basedir="." default="all" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project basedir="." default="all" xmlns:if="ant:if" xmlns:unless="ant:unless">
 	
 	<basename property="ant.project.name" file="${basedir}"/>
 	<property environment="env"/>
 	
-	<echo message="ANT version ${ant.version}" />
+	<echo message="${ant.version}" />
 	<echo message="project ${ant.project.name}: ${ant.file}"/> 
 	
 	<!-- Compiler options -->
@@ -21,28 +21,28 @@
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 	<property name="project.ear" value="../${ant.project.name}EAR/"/>
 
-	<!-- Target dirs -->
+	<!--  dirs -->
 	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
 
-	<!-- Library dirs (Windows) -->
-	<available file="E:\\IBM\\SDP\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP\\"/>
-	<available file="E:\\IBM\\SDP91\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP91\\"/>
-	<available file="E:\\IBM\\SDP95\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP95\\"/>
-	<available file="E:\\IBM\\SDP96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP96\\"/>
-	<available file="E:\\IBM\\RAD\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD\\"/>
-	<available file="E:\\IBM\\RAD91\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD91\\"/>
-	<available file="E:\\IBM\\RAD95\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD95\\"/>
-	<available file="E:\\IBM\\RAD96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD96\\"/>
+	<!-- Library dirs (viene selezionato il primo path valido) -->
+	<available unless:set="RAD_DIR" file="E:\\IBM\\RAD96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD96\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\SDP96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP96\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\RAD95\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD95\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\SDP95\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP95\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\RAD91\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD91\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\SDP91\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP91\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\RAD\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD\\"/>
+	<available unless:set="RAD_DIR" file="E:\\IBM\\SDP\\" type="dir" property="RAD_DIR" value="E:\\IBM\\SDP\\"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/RAD96/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD96/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/SDP96/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP96/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/RAD95/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD95/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/SDP95/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP95/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/RAD91/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD91/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/SDP91/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP91/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/RAD/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD/"/>
+	<available unless:set="RAD_DIR" file="/opt/IBM/SDP/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP/"/>
 	
-	<!-- Library dirs (Linux) -->
-	<available file="/opt/IBM/SDP/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP/"/>
-	<available file="/opt/IBM/SDP91/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP91/"/>
-	<available file="/opt/IBM/SDP95/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP95/"/>
-	<available file="/opt/IBM/SDP96/" type="dir" property="RAD_DIR" value="/opt/IBM/SDP96/"/>
-	<available file="/opt/IBM/RAD/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD/"/>
-	<available file="/opt/IBM/RAD91/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD91/"/>
-	<available file="/opt/IBM/RAD95/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD95/"/>
-	<available file="/opt/IBM/RAD96/" type="dir" property="RAD_DIR" value="/opt/IBM/RAD96/"/>
+	<echo message="RAD_DIR=${RAD_DIR}"></echo>
 	
 	<!-- Library dirs (project) -->
 	<path id="path.webApp">
