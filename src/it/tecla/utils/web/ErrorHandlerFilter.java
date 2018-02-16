@@ -98,19 +98,26 @@ public class ErrorHandlerFilter implements Filter {
 		errorMessage.append(request.getMethod());
 		errorMessage.append(" ");
 		
-		// CONTENT TYPE
-		if (request.getContentType() != null) {
-			errorMessage.append("(Content-Type: ");
-			errorMessage.append(request.getContentType());
-			errorMessage.append(") ");
-		}
-		
 		// URL
 		errorMessage.append(request.getServletPath());
 		errorMessage.append(request.getPathInfo());
 		if (request.getQueryString() != null) {
 			errorMessage.append("?");
 			errorMessage.append(request.getQueryString());
+		}
+		
+		// CONTENT TYPE
+		if (request.getContentType() != null) {
+			errorMessage.append(" (Content-Type: ");
+			errorMessage.append(request.getContentType());
+			errorMessage.append(")");
+		}
+		
+		// REMOTE USER
+		if (request.getRemoteUser() != null) {
+			errorMessage.append(" (RemoteUser: ");
+			errorMessage.append(request.getRemoteUser());
+			errorMessage.append(")");
 		}
 		
 		return errorMessage.toString();
