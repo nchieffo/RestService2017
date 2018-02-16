@@ -56,10 +56,6 @@ public class JaxRsJacksonProvider implements MessageBodyReader<Object>, MessageB
 
 		// formato di input/output per le date utilizzando il timezone di sistema, o UTC come fallback
 		StdDateFormat dateFormat = new StdDateFormat();
-		TimeZone timezone = TimeZone.getDefault();
-		if (timezone == null) {
-			timezone = TimeZone.getTimeZone("UTC");
-		}
 		dateFormat.setCalendar(Calendar.getInstance());
 		dateFormat.setTimeZone(TimeZone.getDefault());
 		mapper.setDateFormat(dateFormat);
