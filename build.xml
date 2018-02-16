@@ -25,7 +25,8 @@
 	<!-- Target dirs -->
 	<property if:set="profile" name="target.dir" value="../dist/${ant.project.name}/${profile}"/>
 	<property unless:set="profile" name="target.dir" value="../dist/${ant.project.name}"/>
-	<property name="target.classes" value="${target.dir}/WEB-INF/classes"/>
+	<property name="target.builddir" value="${target.dir}/build"/>
+	<property name="target.classes" value="${target.builddir}/WEB-INF/classes"/>
 	<property if:set="profile" name="target.war" value="${target.dir}/${ant.project.name}.${profile}.war"/>
 	<property unless:set="profile" name="target.war" value="${target.dir}/${ant.project.name}.war"/>
 	<property if:set="profile" name="target.ear" value="${target.dir}/${ant.project.name}EAR.${profile}.ear"/>
@@ -75,16 +76,13 @@
 	
 	<!-- ANT tasks -->
 	
-	<target name="target_config">
-	</target>
-	
-	<target depends="target_config" name="clean">
-		<delete dir="${target.classes}"/>
+	<target name="clean">
+		<delete dir="${target.builddir}"/>
 		<delete file="${target.war}"/>
 		<delete file="${target.ear}"/>
 	</target>
 	
-	<target depends="target_config" name="init">
+	<target name="init">
 		
 		<mkdir dir="${target.classes}"/>
 		
@@ -107,7 +105,18 @@
 		<available if:set="profile" file="resources/profile/${profile}" type="dir" property="resources.profile.dir.exists"/>
 		<echo if:set="resources.profile.dir.exists" message="Copying '${profile}' profile resource files..."/>
 		<copy if:set="resources.profile.dir.exists" includeemptydirs="false" todir="${target.classes}" overwrite="true">
-			<fileset dir="resources/profile/${profile}">
+			<fileset dir="resources/profile/${profile}"></fileset>
+		</copy>
+		
+		<!-- directory WebContent -->
+		<copy includeemptydirs="false" todir="${target.builddir}" overwrite="false">
+			<fileset dir="WebContent/">
+				<exclude name="WEB-INF/ibm-web-bnd.xml"/>
+				<exclude name="WEB-INF/classes"/>
+			</fileset>
+			<fileset dir=".">
+				<include name="CHANGELOG"/>
+				<include name="LICENSE"/>
 			</fileset>
 		</copy>
 		
@@ -122,21 +131,20 @@
 	
 	<target depends="build" name="war">
 		<echo message="war profile: ${profile}"/>
+		
+		<!-- prima di fare il WAR devo crearmi la cartella apposita -->
+		
 		<war destfile="${target.war}" update="true" needxmlfile="false" manifest="WebContent/META-INF/MANIFEST.MF">
-			<fileset dir="WebContent/">
-				<exclude name="WEB-INF/ibm-web-bnd.xml"/>
-			</fileset>
-			<fileset dir=".">
-				<include name="CHANGELOG"/>
-				<include name="LICENSE"/>
-			</fileset>
+			<fileset dir="${target.builddir}"></fileset>
 		</war>
 	</target>
 	
 	<target depends="war" name="ear">
 		<echo message="ear profile: ${profile}"/>
+		
 		<available file="${project.ear}" type="dir" property="project.ear.exists"/>
 		<fail unless:set="project.ear.exists" message="EAR project directory does not exist: ${project.ear}"/>
+		
 		<ear destfile="${target.ear}" update="true" appxml="${project.ear}/META-INF/application.xml" manifest="${project.ear}/META-INF/MANIFEST.MF">
 			
 			<fileset unless:set="profile" file="${target.war}"/>
@@ -154,33 +162,25 @@
 			
 		</ear>
 	</target>
+	
+	<target depends="clean,ear" name="rebuild-ear">
+		
+	</target>
 		
 	<target name="rebuild-ear-test">
-		<!-- clean and build test -->
-		<antcall inheritall="false" target="clean">
-			<param name="profile" value="test"/>
-		</antcall>
-		<antcall inheritall="false" target="ear">
+		<antcall inheritall="false" target="rebuild-ear">
 			<param name="profile" value="test"/>
 		</antcall>
 	</target>
 	
 	<target name="rebuild-ear-quality">
-		<!-- clean and build quality -->
-		<antcall inheritall="false" target="clean">
-			<param name="profile" value="quality"/>
-		</antcall>
-		<antcall inheritall="false" target="ear">
+		<antcall inheritall="false" target="rebuild-ear">
 			<param name="profile" value="quality"/>
 		</antcall>
 	</target>
 
 	<target name="rebuild-ear-prod">
-		<!-- clean and build prod -->
-		<antcall inheritall="false" target="clean">
-			<param name="profile" value="prod"/>
-		</antcall>
-		<antcall inheritall="false" target="ear">
+		<antcall inheritall="false" target="rebuild-ear">
 			<param name="profile" value="prod"/>
 		</antcall>
 	</target>
