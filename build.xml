@@ -63,8 +63,7 @@
 		<pathelement location="${target.classes}"/>
 		<path refid="path.webApp"/>
 		<path refid="path.ear"/>
-		<!-- questo path viene utilizzato nel bootclasspath -->
-		<!-- <path refid="path.webSpherePortal"/> -->
+		<path refid="path.webSpherePortal"/>
 	</path>
 	
 	<!-- ANT tasks -->
@@ -115,7 +114,6 @@
 		<javac debug="true" debuglevel="${debuglevel}" destdir="${target.classes}" includeantruntime="false" source="${source}" target="${target}" executable="${RAD_DIR}/runtimes/base_v8_stub/java/bin/javac" fork="true">
 			<src refid="path.src"/>
 			<classpath refid="classpath"/>
-			<bootclasspath refid="path.webSpherePortal"/>
 		</javac>
 	</target>
 	
@@ -153,27 +151,41 @@
 			
 		</ear>
 	</target>
-	
-	<target name="all">
-		<antcall target="clean">
-			<param name="profile" value="test"/>
-		</antcall>
-		<antcall target="clean">
-			<param name="profile" value="quality"/>
-		</antcall>
-		<antcall target="clean">
-			<param name="profile" value="prod"/>
-		</antcall>
 		
+	<target name="rebuild-ear-test">
+		<!-- clean and build test -->
+		<antcall target="clean">
+			<param name="profile" value="test"/>
+		</antcall>
 		<antcall target="ear">
 			<param name="profile" value="test"/>
+		</antcall>
+	</target>
+	
+	<target name="rebuild-ear-quality">
+		<!-- clean and build quality -->
+		<antcall target="clean">
+			<param name="profile" value="quality"/>
 		</antcall>
 		<antcall target="ear">
 			<param name="profile" value="quality"/>
 		</antcall>
+	</target>
+
+	<target name="rebuild-ear-prod">
+		<!-- clean and build prod -->
+		<antcall target="clean">
+			<param name="profile" value="prod"/>
+		</antcall>
 		<antcall target="ear">
 			<param name="profile" value="prod"/>
 		</antcall>
+	</target>
+		
+	<target name="all">
+		<antcall target="rebuild-ear-test"></antcall>
+		<antcall target="rebuild-ear-quality"></antcall>
+		<antcall target="rebuild-ear-prod"></antcall>
 	</target>
 
 </project>
