@@ -10,8 +10,8 @@
 	<property name="maxHistory" value="365" />
 	<property name="totalSizeCap" value="50MB" />
 	
-	<property name="pattern_compact" value="%level [%contextName] [%mdc{req:-no_request}] %logger{36} - %msg%n" />
-	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] [%mdc{req:-no_request}] %logger - %msg%n" />
+	<property name="pattern_compact" value="%level [%contextName] [%mdc{req:-no_request}] %logger{36} - %msg" />
+	<property name="pattern_full" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %level [%contextName] [%mdc{req:-no_request}] %logger - %msg" />
 	
 	<appender name="JUL" class="it.tecla.utils.logging.logback.JULAppender">
 		<encoder>
@@ -19,20 +19,44 @@
 		</encoder>
 	</appender>
 	
-	<appender name="FILE_BY_DATE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="BY_DATE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		
 		<file>${logsFolder}/current.log</file>
 		
-		<encoder>
-			<pattern>${pattern_full}</pattern>
-		</encoder>
-		
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<fileNamePattern>${logsFolder}/by_date/%d{yyyy-MM}/previous.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>${logsFolder}/by_date/%d{yyyy-MM}/previous/previous.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<maxFileSize>${maxFileSize}</maxFileSize>
 			<maxHistory>${maxHistory}</maxHistory>
 			<totalSizeCap>${totalSizeCap}</totalSizeCap>
 		</rollingPolicy>
+		
+		<encoder>
+			<pattern>${pattern_full}%n</pattern>
+		</encoder>
+		
+	</appender>
+	
+	<appender name="ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		
+		<file>${logsFolder}/error.log</file>
+        
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${logsFolder}/error.%i.log</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>5MB</maxFileSize>
+		</triggeringPolicy>
+		
+		<encoder>
+			<pattern>${pattern_full}%n</pattern>
+		</encoder>
+		
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+        </filter>
 		
 	</appender>
 

@@ -10,7 +10,8 @@
 	
 	<root level="info">
 		<appender-ref ref="JUL" />
-		<appender-ref ref="FILE_BY_DATE" />
+		<appender-ref ref="BY_DATE_LOG" />
+		<appender-ref ref="ERROR_LOG" />
 	</root>
 
 </configuration>
