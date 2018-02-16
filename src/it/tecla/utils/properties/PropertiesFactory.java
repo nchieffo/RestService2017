@@ -12,6 +12,10 @@ public class PropertiesFactory {
 	
 	public static final String DEFAULT_PROPERTIES_PATH = "/application.properties";
 	
+	private PropertiesFactory() {
+		throw new UnsupportedOperationException("Utility class");
+	}
+	
 	public static Properties getInstance() {
 		return getInstanceFromClasspath(DEFAULT_PROPERTIES_PATH);
 	}
@@ -28,7 +32,7 @@ public class PropertiesFactory {
 			return properties;
 			
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+			throw new IllegalStateException(ex);
 		}
 	}
 }

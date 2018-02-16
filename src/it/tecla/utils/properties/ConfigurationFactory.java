@@ -14,6 +14,10 @@ public class ConfigurationFactory {
 	
 	public static final String DEFAULT_PROPERTIES_PATH = "/application.properties";
 	
+	private ConfigurationFactory() {
+		throw new UnsupportedOperationException("Utility class");
+	}
+	
 	public static Configuration getInstance() {
 		return getInstanceFromClasspath(DEFAULT_PROPERTIES_PATH);
 	}
@@ -27,7 +31,7 @@ public class ConfigurationFactory {
 			return config;
 			
 		} catch (ConfigurationException ex) {
-			throw new RuntimeException(ex);
+			throw new IllegalStateException(ex);
 		}
 	}
 	

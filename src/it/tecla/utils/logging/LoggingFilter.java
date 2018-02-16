@@ -28,7 +28,7 @@ public class LoggingFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		
+		// nothing to initialize
 	}
 
 	@Override
@@ -45,12 +45,7 @@ public class LoggingFilter implements Filter {
 			
 				final HttpServletRequest httpRequest = (HttpServletRequest) request;
 				
-				StringBuffer url;
-				
-//				url = httpRequest.getRequestURL();
-//				url = new StringBuffer(httpRequest.getContextPath() + httpRequest.getServletPath() + httpRequest.getPathInfo());
-				url = new StringBuffer(httpRequest.getServletPath() + httpRequest.getPathInfo());
-//				url = new StringBuffer(httpRequest.getPathInfo());
+				StringBuilder url = new StringBuilder(httpRequest.getServletPath() + httpRequest.getPathInfo());
 				
 				if (httpRequest.getQueryString() != null) {
 					url.append("?");
@@ -68,9 +63,6 @@ public class LoggingFilter implements Filter {
 				}
 				
 				contentType = httpRequest.getContentType();
-	//			if (contentType != null) {
-	//				MDC.put("req.contentType", contentType);
-	//			}
 	
 				if (contentType != null) {
 					req = httpRequest.getMethod() + "(" + contentType + ") " + url;
@@ -79,8 +71,8 @@ public class LoggingFilter implements Filter {
 				}
 				MDC.put("req", req);
 			
-			} catch (Throwable t) {
-				LOGGER.warn("Error while trying to extract request information to log", t);
+			} catch (Exception ex) {
+				LOGGER.warn("Error while trying to extract request information to log", ex);
 			}
 		}
 		
@@ -88,14 +80,14 @@ public class LoggingFilter implements Filter {
 			
 			chain.doFilter(request, response);
 			
-		} catch(Throwable t) {
+		} catch(Exception ex) {
 			
 			String requestBody = MDC.get("req.body");
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Uncaught exception while serving request");
 			sb.append("\n");
-			sb.append(t);
+			sb.append(ex);
 			sb.append("\n");
 			sb.append("\n");
 			if (remoteUser != null) {
@@ -131,7 +123,7 @@ public class LoggingFilter implements Filter {
 			}
 			
 			if (!skipLogging) {
-				LOGGER.error(errorMessage, t);
+				LOGGER.error(errorMessage, ex);
 			}
 			
 			// non è necessario fare throw dell'eccezione perchè è già stata stampata sia da JAX-RS che dal motore delle servlet
@@ -144,7 +136,7 @@ public class LoggingFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		
+		// nothing to destroy
 	}
 
 }

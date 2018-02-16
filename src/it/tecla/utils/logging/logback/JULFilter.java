@@ -7,7 +7,7 @@ import ch.qos.logback.core.spi.FilterReply;
 /**
  * Filtro di logback per rimbalzare la decisione sul logger JDK
  * @author Nicolo' Chieffo
- *
+ * @deprecated Deprecato in favore di JULAppender
  */
 @Deprecated
 public class JULFilter extends Filter<ILoggingEvent> {

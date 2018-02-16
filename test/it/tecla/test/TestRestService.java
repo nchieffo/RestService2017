@@ -41,7 +41,7 @@ public class TestRestService {
 	@GET
 	@Path("/void")
 	public void doVoid() throws Exception {
-		Thread.sleep(250);
+		
 	}
 
 	@GET

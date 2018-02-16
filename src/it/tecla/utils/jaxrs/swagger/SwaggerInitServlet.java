@@ -86,10 +86,14 @@ public class SwaggerInitServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (swaggerUiPath == null) {
-			response.sendError(404, "swagger-ui webjar not found in WEB-INF/lib (filename example: swagger-ui-3.2.0.jar)");
-		} else {
-			response.sendRedirect(swaggerUiPath);
+		try {
+			if (swaggerUiPath == null) {
+				response.sendError(404, "swagger-ui webjar not found in WEB-INF/lib (filename example: swagger-ui-3.2.0.jar)");
+			} else {
+				response.sendRedirect(swaggerUiPath);
+			}
+		} catch (Exception ex) {
+			// noop
 		}
 	}
 

@@ -85,8 +85,8 @@ public class JaxRsJacksonProvider implements MessageBodyReader<Object>, MessageB
 	public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException {
 		try {
 			return mapper.readValue(entityStream, type);
-		} catch (Throwable t) {
-			throw new WebApplicationException(t, Response.status(400).entity(t.getMessage()).type("text/plain").build());
+		} catch (Exception ex) {
+			throw new WebApplicationException(ex, Response.status(400).entity(ex.getMessage()).type("text/plain").build());
 		}
 	}
 	

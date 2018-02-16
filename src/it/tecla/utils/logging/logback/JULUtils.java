@@ -7,6 +7,10 @@ package it.tecla.utils.logging.logback;
  */
 public class JULUtils {
 	
+	private JULUtils() {
+		throw new UnsupportedOperationException("Utility class");
+	}
+	
 	public static java.util.logging.Level toJULLevel(ch.qos.logback.classic.Level logbackLevel) {
 		
 		java.util.logging.Level julLevel;

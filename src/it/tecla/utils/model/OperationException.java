@@ -9,8 +9,8 @@ public class OperationException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	private String statusCode;
-	private String details;
+	private final String statusCode;
+	private final String details;
 	
 	public OperationException(String details, String statusCode) {
 		super(statusCode + " " + details);
