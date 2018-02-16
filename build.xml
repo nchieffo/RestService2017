@@ -7,6 +7,7 @@
 	
 	<echo message="${ant.version}" />
 	<echo message="project ${ant.project.name}: ${ant.file}"/> 
+	<echo message="profile: ${profile}"/> 
 	
 	<!-- Compiler options -->
 	<property name="debuglevel" value="source,lines,vars"/>
@@ -21,8 +22,14 @@
 	<pathconvert pathsep="," property="path.src.csv" refid="path.src"/>
 	<property name="project.ear" value="../${ant.project.name}EAR/"/>
 
-	<!--  dirs -->
-	<property name="target.classes" value="WebContent/WEB-INF/classes"/>
+	<!-- Target dirs -->
+	<property if:set="profile" name="target.dir" value="../dist/${ant.project.name}/${profile}"/>
+	<property unless:set="profile" name="target.dir" value="../dist/${ant.project.name}"/>
+	<property name="target.classes" value="${target.dir}/WEB-INF/classes"/>
+	<property if:set="profile" name="target.war" value="${target.dir}/${ant.project.name}.${profile}.war"/>
+	<property unless:set="profile" name="target.war" value="${target.dir}/${ant.project.name}.war"/>
+	<property if:set="profile" name="target.ear" value="${target.dir}/${ant.project.name}EAR.${profile}.ear"/>
+	<property unless:set="profile" name="target.ear" value="${target.dir}/${ant.project.name}EAR.ear"/>
 
 	<!-- Library dirs (viene selezionato il primo path valido) -->
 	<available unless:set="RAD_DIR" file="E:\\IBM\\RAD96\\" type="dir" property="RAD_DIR" value="E:\\IBM\\RAD96\\"/>
@@ -69,10 +76,6 @@
 	<!-- ANT tasks -->
 	
 	<target name="target_config">
-		<property if:set="profile" name="target.war" value="../dist/${ant.project.name}/${ant.project.name}.${profile}.war"/>
-		<property unless:set="profile" name="target.war" value="../dist/${ant.project.name}/${ant.project.name}.war"/>
-		<property if:set="profile" name="target.ear" value="../dist/${ant.project.name}/${ant.project.name}EAR.${profile}.ear"/>
-		<property unless:set="profile" name="target.ear" value="../dist/${ant.project.name}/${ant.project.name}EAR.ear"/>
 	</target>
 	
 	<target depends="target_config" name="clean">
@@ -154,30 +157,30 @@
 		
 	<target name="rebuild-ear-test">
 		<!-- clean and build test -->
-		<antcall target="clean">
+		<antcall inheritall="false" target="clean">
 			<param name="profile" value="test"/>
 		</antcall>
-		<antcall target="ear">
+		<antcall inheritall="false" target="ear">
 			<param name="profile" value="test"/>
 		</antcall>
 	</target>
 	
 	<target name="rebuild-ear-quality">
 		<!-- clean and build quality -->
-		<antcall target="clean">
+		<antcall inheritall="false" target="clean">
 			<param name="profile" value="quality"/>
 		</antcall>
-		<antcall target="ear">
+		<antcall inheritall="false" target="ear">
 			<param name="profile" value="quality"/>
 		</antcall>
 	</target>
 
 	<target name="rebuild-ear-prod">
 		<!-- clean and build prod -->
-		<antcall target="clean">
+		<antcall inheritall="false" target="clean">
 			<param name="profile" value="prod"/>
 		</antcall>
-		<antcall target="ear">
+		<antcall inheritall="false" target="ear">
 			<param name="profile" value="prod"/>
 		</antcall>
 	</target>
