@@ -13,6 +13,6 @@ import javax.ws.rs.core.Application;
 @ApplicationPath(JaxRsApplication.API_PATH)
 public class JaxRsApplication extends Application {
 	
-	public static final String API_PATH = "/api";
+	public static final String API_PATH = "api";
 	
 }

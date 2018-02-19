@@ -52,7 +52,7 @@ public class SwaggerInitServlet extends HttpServlet {
 		// inizializzazione swagger
 		BeanConfig beanConfig = new BeanConfig();
 		beanConfig.setVersion(swaggerVersion);
-		beanConfig.setBasePath(config.getServletContext().getContextPath() + JaxRsApplication.API_PATH);
+		beanConfig.setBasePath(config.getServletContext().getContextPath() + "/" + JaxRsApplication.API_PATH);
 		beanConfig.setResourcePackage(swaggerResources);
 		beanConfig.setScan(true);
 		

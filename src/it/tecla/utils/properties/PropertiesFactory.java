@@ -10,7 +10,7 @@ import java.util.Properties;
  */
 public class PropertiesFactory {
 	
-	public static final String DEFAULT_PROPERTIES_PATH = "/application.properties";
+	public static final String DEFAULT_PROPERTIES_PATH = "application.properties";
 	
 	private PropertiesFactory() {
 		throw new UnsupportedOperationException("Utility class");
@@ -25,7 +25,7 @@ public class PropertiesFactory {
 		try {
 			
 			Properties properties = new Properties();
-			InputStream is = PropertiesFactory.class.getResourceAsStream(classPath);
+			InputStream is = PropertiesFactory.class.getClassLoader().getResourceAsStream(classPath);
 			properties.load(is);
 			is.close();
 			
