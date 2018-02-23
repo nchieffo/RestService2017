@@ -74,7 +74,7 @@
 		<path refid="path.webSpherePortal"/>
 	</path>
 	
-	<!-- ANT tasks -->
+	<!-- targets -->
 	
 	<target name="clean">
 		<delete dir="${target.builddir}"/>
