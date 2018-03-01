@@ -1,5 +1,6 @@
 package it.tecla.test;
 
+import javax.annotation.security.RolesAllowed;
 import javax.mail.Session;
 import javax.naming.InitialContext;
 import javax.ws.rs.Consumes;
@@ -36,6 +37,13 @@ public class TestRestService {
 	public String echo(@ApiParam("messaggio che verrà ritornato") @FormParam("msg") String msg) throws Exception {
 		
 		return msg;
+	}
+
+	@GET
+	@RolesAllowed("admin")
+	@Path("/admin")
+	public String doAdmin(@QueryParam("user") String user) throws Exception {
+		return "ADMIN!";
 	}
 
 	@GET
