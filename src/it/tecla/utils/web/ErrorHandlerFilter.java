@@ -28,11 +28,11 @@ public class ErrorHandlerFilter implements Filter {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandlerFilter.class);
 	
-	private boolean printError;
+	private boolean printErrors;
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		printError = PropertiesFactory.getInstance().getProperty("errorHandler.printErrors", "true").equalsIgnoreCase("true");
+		printErrors = PropertiesFactory.getInstance().getProperty("errorHandler.printErrors", "true").equalsIgnoreCase("true");
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ErrorHandlerFilter implements Filter {
 					writer.write(new Date().toString());
 					writer.write("\n");
 					
-					if (printError) {
+					if (printErrors) {
 						writer.write(errorMessage);
 						writer.write("\n");
 						writer.write("\n");
